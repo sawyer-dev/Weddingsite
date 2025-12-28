@@ -1,0 +1,71 @@
+<div class="connections-board">
+  <!-- Solved Groups + Word Grid with background -->
+  <div class="connections-game-bg">
+    <!-- Solved groups (foundGroupRow) -->
+    <div *ngFor="let fg of foundGroups" class="found-group-row"
+         [style.background]="groups[fg.group].color"
+         [attr.data-difficulty]="groups[fg.group].difficulty">
+      <span class="group-label">{{ groups[fg.group].name }}</span>
+      <span class="group-words">
+        <ng-container *ngFor="let i of fg.indices">
+          {{ words[i].text }}
+        </ng-container>
+      </span>
+    </div>
+    <!-- Grid -->
+    <div class="words-grid" role="grid" aria-label="Connections word grid" [class.shake]="shake">
+      <ng-container *ngFor="let w of words; let i = index">
+        <button
+          *ngIf="!w.solved"
+          class="word-btn"
+          [class.selected]="w.selected"
+          [class.animating]="w.animating"
+          [class.focused]="w.focus"
+          [attr.aria-label]="getAriaLabel(i)"
+          [attr.aria-pressed]="w.selected"
+          [attr.tabindex]="w.focus ? 0 : -1"
+          (click)="toggleSelect(i)"
+          (focus)="setFocus(i)"
+          [disabled]="state !== 'playing' || w.animating"
+        >
+          {{ w.text }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Controls & Mistakes: OUTSIDE the background image -->
+  <div class="game-controls-row">
+    <div class="controls">
+      <button (click)="shuffleWords()" [disabled]="state !== 'playing'">Shuffle</button>
+      <button (click)="deselectAll()" [disabled]="selectedIndices.length === 0 || state !== 'playing'">Deselect All</button>
+      <button (click)="submit()" [disabled]="!canSubmit()">Submit</button>
+    </div>
+    <div class="mistakes">
+      <span *ngFor="let m of [].constructor(maxMistakes); let i = index"
+            class="mistake-dot"
+            [class.used]="i < mistakes"></span>
+      <span class="mistake-label" aria-live="polite">
+        {{ maxMistakes - mistakes }} mistakes remaining
+      </span>
+    </div>
+  </div>
+
+  <!-- Endgame Overlay -->
+  <div *ngIf="state !== 'playing'" class="endgame-overlay" tabindex="0" aria-live="assertive">
+    <div *ngIf="state === 'won'" class="endgame-message">You did it!</div>
+    <div *ngIf="state === 'lost'" class="endgame-message">Out of guesses!</div>
+    <div class="reveal-groups">
+      <div *ngFor="let g of getUnsolvedGroups()" class="found-group-row"
+           [style.background]="groups[g.group].color"
+           [attr.data-difficulty]="groups[g.group].difficulty">
+        <span class="group-label">{{ groups[g.group].name }}</span>
+        <span class="group-words">
+          <ng-container *ngFor="let i of g.indices">
+            {{ words[i].text }}
+          </ng-container>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

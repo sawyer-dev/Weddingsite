@@ -1,0 +1,190 @@
+/* Only the grid area gets the border background */
+.connections-game-bg {
+  background: url('/assets/images/connections_border.jpg') center/contain no-repeat;
+  /* background-color: #fffbe8; */
+  /* padding: 3.5rem 0 3.5rem 0; */
+  border-radius: 24px;
+  /* margin: 2rem auto 0 auto; */
+  max-width: 650px;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  /* justify-content: center; */
+  /* Ensure min-height for large backgrounds */
+  min-height: 525px;
+}
+
+/* The board now just provides layout and overlay */
+.connections-board {
+  width: 95%;
+  /* background: rgba(255,255,255,0.97); */
+  border-radius: 12px;
+  padding: 0 1rem 1.5rem 1rem;
+  /* box-shadow: 0 2px 8px rgba(0,0,0,0.08); */
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* Solved Groups */
+.found-group-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px;
+  margin-bottom: 0.7rem; /* slightly more space */
+  margin-top: 0;         /* remove top margin */
+  padding: 0.7rem 0.5rem 0.3rem 0.5rem;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  min-height: 44px;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 350px;
+}
+.group-label {
+  font-weight: bold;
+  margin-right: 1.2rem;
+  min-width: 80px;
+}
+.group-words {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+/* Grid */
+.words-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto 0 auto; /* Remove vertical margin so grid sits just below solved groups */
+  min-height: 220px;
+  transition: box-shadow 0.2s;
+}
+.words-grid.shake {
+  animation: shake 0.4s;
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+
+.word-btn {
+  padding: 1.1rem 0.5rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: none;
+  background: #f6f6ef;
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  outline: none;
+  position: relative;
+}
+.word-btn.selected {
+  background: #b5d682;
+  color: #222;
+  box-shadow: 0 0 0 2px #b5d68255;
+}
+.word-btn:active {
+  background: #e0c9a6;
+}
+.word-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.word-btn.focused {
+  box-shadow: 0 0 0 3px #4a90e2;
+  z-index: 2;
+}
+.word-btn.animating {
+  animation: foundPulse 0.7s cubic-bezier(.4,2.5,.5,1) forwards;
+  z-index: 2;
+}
+@keyframes foundPulse {
+  0% { background: #f6f6ef; }
+  50% { background: #b5d682; transform: scale(1.08); }
+  100% { background: #f6f6ef; }
+}
+
+/* Controls */
+.game-controls-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.controls button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.controls button:disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Mistakes */
+.mistakes {
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  text-align: center;
+}
+.mistake-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background: #b5d682;
+  border: 1px solid #888;
+}
+.mistake-dot.used {
+  background: #e0c9a6;
+  border: 1px solid #aaa;
+}
+.mistake-label {
+  margin-left: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Endgame Overlay */
+.endgame-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.97);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 12px;
+}
+.endgame-message {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+.reveal-groups {
+  width: 100%;
+  margin-top: 1rem;
+}

@@ -18,7 +18,7 @@ export class Navbar implements OnInit, OnDestroy {
   private countdownInterval: any;
 
   ngOnInit() {
-    this.startCountdown();
+    // this.startCountdown();
   }
 
   ngOnDestroy() {
@@ -31,24 +31,32 @@ export class Navbar implements OnInit, OnDestroy {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  startCountdown() {
-    const weddingDate = new Date('2026-05-23T14:00:00').getTime();
-    
-    this.countdownInterval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = weddingDate - now;
-
-      if (distance > 0) {
-        this.days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        this.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        this.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        this.seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      } else {
-        this.days = 0;
-        this.hours = 0;
-        this.minutes = 0;
-        this.seconds = 0;
-      }
-    }, 1000);
+  scrollToSection(event: Event, sectionId: string) {
+    event.preventDefault();
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   }
+
+  // startCountdown() {
+  //   const weddingDate = new Date('2026-05-23T14:00:00').getTime();
+    
+  //   this.countdownInterval = setInterval(() => {
+  //     const now = new Date().getTime();
+  //     const distance = weddingDate - now;
+
+  //     if (distance > 0) {
+  //       this.days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  //       this.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //       this.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  //       this.seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  //     } else {
+  //       this.days = 0;
+  //       this.hours = 0;
+  //       this.minutes = 0;
+  //       this.seconds = 0;
+  //     }
+  //   }, 1000);
+  // }
 } 

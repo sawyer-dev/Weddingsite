@@ -1,55 +1,11 @@
 <nav class="navbar">
   <div class="navbar-container">
-    <!-- Logo/Brand -->
-    <div class="navbar-brand">
-      <a routerLink="/" class="brand-link">
-        <span class="sawyer">Sawyer</span> & <span class="grace">Grace</span>
-      </a>
-    </div>
-
-    <!-- Navigation Links -->
     <div class="navbar-links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
-      <a routerLink="/story" routerLinkActive="active" class="nav-link">Our Story</a>
-      <a routerLink="/details" routerLinkActive="active" class="nav-link">Details</a>
-      <a routerLink="/gallery" routerLinkActive="active" class="nav-link">Gallery</a>
-      <a routerLink="/rsvp" routerLinkActive="active" class="nav-link">RSVP</a>
-    </div>
-
-    <!-- Countdown Timer -->
-    <div class="navbar-countdown">
-      <div class="countdown-item">
-        <span class="countdown-number">{{ days }}</span>
-        <span class="countdown-label">Days</span>
-      </div>
-      <div class="countdown-item">
-        <span class="countdown-number">{{ hours }}</span>
-        <span class="countdown-label">Hours</span>
-      </div>
-      <div class="countdown-item">
-        <span class="countdown-number">{{ minutes }}</span>
-        <span class="countdown-label">Min</span>
-      </div>
-      <div class="countdown-item">
-        <span class="countdown-number">{{ seconds }}</span>
-        <span class="countdown-label">Sec</span>
-      </div>
-    </div>
-
-    <!-- Mobile Menu Button -->
-    <div class="mobile-menu-btn" (click)="toggleMobileMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+      <a href="#home" class="nav-link" (click)="scrollToSection($event, 'home')">Home</a>
+      <a href="#rsvp" class="nav-link" (click)="scrollToSection($event, 'rsvp')">RSVP</a>
+      <a href="#info" class="nav-link" (click)="scrollToSection($event, 'info')">Information</a>
+      <a href="#timeline" class="nav-link" (click)="scrollToSection($event, 'timeline')">Timeline</a>
+      <a href="#photo-album" class="nav-link" (click)="scrollToSection($event, 'photo-album')">Photo Album</a>
     </div>
   </div>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" [class.active]="isMobileMenuOpen">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="mobile-nav-link">Home</a>
-    <a routerLink="/story" routerLinkActive="active" class="mobile-nav-link">Our Story</a>
-    <a routerLink="/details" routerLinkActive="active" class="mobile-nav-link">Details</a>
-    <a routerLink="/gallery" routerLinkActive="active" class="mobile-nav-link">Gallery</a>
-    <a routerLink="/rsvp" routerLinkActive="active" class="mobile-nav-link">RSVP</a>
-  </div>
-</nav> 
+</nav>

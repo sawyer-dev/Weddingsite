@@ -1,125 +1,101 @@
-<div class="wedding-homepage">
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="hero-content">
-      <h1 class="couple-names"><span class="sawyer">Sawyer</span> & <span class="grace">Grace</span></h1>
-      <p class="wedding-date">May 23, 2026</p>
-      <p class="wedding-location">The Colony Club • Detroit, MI</p>
-      <div class="cta-buttons">
-        <button class="btn btn-primary" (click)="scrollToRSVP()">RSVP Now</button>
+<div class="header">
+  <app-navbar></app-navbar>
+</div>
+
+
+<div class="main-content">
+  <section
+      *ngIf="showHiddenSection"
+      class="hidden-section"
+  >
+    <h3>You're past the Welcome section!</h3>
+    <img src="assets/images/hidden.gif" alt="Hidden surprise" style="max-width: 100%; height: auto;" />
+  </section>
+
+  <section id="home" class="homepage-section">
+    <!-- <h2>Welcome</h2> -->
+    <div class="welcome-section">
+      <img src="assets/images/grace.jpg" alt="Grace" class="side-img left-img" />
+      <img src="assets/images/title_invite_date.png" alt="Title Invite Date" class="center-img" />
+      <img src="assets/images/sawyer.jpg" alt="Sawyer" class="side-img right-img" />
+    </div>
+  </section>
+
+  <hr />
+
+  <section id="rsvp" class="homepage-section">
+    <h2>RSVP</h2>
+    <connections-game></connections-game>
+  </section>
+
+  <hr />
+
+  <section id="info" class="homepage-section">
+    <h2>Information</h2>
+    <p>Placeholder for event information.</p>
+    <!-- Location, Hotels, Dresscode, Gifts, +1, Parking -->
+  </section>
+
+  <hr />
+
+  <section id="timeline" class="homepage-section">
+  <h2>Timeline</h2>
+  <div class="timeline-events">
+    <div class="timeline-event">
+      <img src="assets/images/timeline_1.png" alt="Arrival" class="timeline-event-img" />
+      <div class="timeline-event-details">
+        <h3 class="event-title">Arrival</h3>
+        <div class="event-time">4:00 PM</div>
+        <div class="event-desc">Guests arrive and are welcomed to The Colony Club.</div>
       </div>
     </div>
-    <div class="hero-background"></div>
-  </section>
-
-
-
-  <!-- Our Story Section -->
-  <section class="story-section">
-    <div class="container">
-      <div class="story-content">
-        <div class="story-text">
-          <h2>Our Love Story</h2>
-          <p>We met on a rainy afternoon in Central Park, sharing an umbrella and a love for coffee. What started as a chance encounter turned into a beautiful journey of love, laughter, and countless adventures together.</p>
-          <p>After three wonderful years of dating, Sawyer proposed during our favorite sunset at the Brooklyn Bridge. We can't wait to celebrate our love with family and friends on our special day.</p>
-        </div>
-        <div class="story-image">
-          <img src="assets/images/Engagement-4440.JPG" alt="Sawyer and Grace" class="story-photo">
-        </div>
+    <div class="timeline-event">
+      <img src="assets/images/timeline_2.png" alt="Ceremony" class="timeline-event-img" />
+      <div class="timeline-event-details">
+        <h3 class="event-title">Ceremony</h3>
+        <div class="event-time">4:30 PM</div>
+        <div class="event-desc">Join us as we exchange vows and begin our new life together.</div>
       </div>
     </div>
-  </section>
-
-  <!-- Photo Gallery Section -->
-  <section class="gallery-section">
-    <div class="container">
-      <h2>Photos</h2>
-              <div class="gallery-grid">
-          <div class="gallery-item">
-            <img src="assets/images/Engagement-4559.JPG" alt="Engagement Photo 1" class="gallery-photo">
-          </div>
-          <div class="gallery-item">
-            <img src="assets/images/Engagement-4627.JPG" alt="Engagement Photo 2" class="gallery-photo">
-          </div>
-          <div class="gallery-item">
-            <img src="assets/images/Engagement-4625.JPG" alt="Engagement Photo 3" class="gallery-photo">
-          </div>
-          <div class="gallery-item">
-            <img src="assets/images/Engagement-4664.JPG" alt="Engagement Photo 4" class="gallery-photo">
-          </div>
-          <div class="gallery-item">
-            <img src="assets/images/Engagement-4757.JPG" alt="Engagement Photo 5" class="gallery-photo">
-          </div>
-          <div class="gallery-item">
-            <img src="assets/images/Engagement-4712.JPG" alt="Engagement Photo 6" class="gallery-photo">
-          </div>
-        </div>
-    </div>
-  </section>
-
-  <!-- Event Details Section -->
-  <section class="details-section">
-    <div class="container">
-      <h2>Wedding Details</h2>
-      <div class="details-grid">
-        <div class="detail-card">
-          <div class="detail-icon">💒</div>
-          <h3>Ceremony</h3>
-          <p class="detail-time">2:00 PM</p>
-          <p class="detail-location">St. Patrick's Cathedral</p>
-          <p class="detail-address">5th Avenue, New York, NY</p>
-        </div>
-        <div class="detail-card">
-          <div class="detail-icon">🍾</div>
-          <h3>Reception</h3>
-          <p class="detail-time">6:00 PM</p>
-          <p class="detail-location">The Grand Ballroom</p>
-          <p class="detail-address">123 Park Avenue, New York, NY</p>
-        </div>
-        <div class="detail-card">
-          <div class="detail-icon">🎵</div>
-          <h3>Dinner & Dancing</h3>
-          <p class="detail-time">7:00 PM</p>
-          <p class="detail-location">The Grand Ballroom</p>
-          <p class="detail-address">123 Park Avenue, New York, NY</p>
-        </div>
+    <div class="timeline-event">
+      <img src="assets/images/timeline_3.png" alt="Cocktail Hour" class="timeline-event-img" />
+      <div class="timeline-event-details">
+        <h3 class="event-title">Cocktail Hour</h3>
+        <div class="event-time">5:00 PM</div>
+        <div class="event-desc">Enjoy drinks and appetizers at The Bar Charles while mingling with friends and family.</div>
       </div>
     </div>
-  </section>
-
-  <!-- RSVP Section -->
-  <section class="rsvp-section" id="rsvp">
-    <div class="container">
-      <h2>RSVP</h2>
-      <p>Please let us know if you can join us on our special day</p>
-      <div class="rsvp-form">
-        <div class="form-group">
-          <input type="text" placeholder="Your Name" class="form-input">
-        </div>
-        <div class="form-group">
-          <input type="email" placeholder="Your Email" class="form-input">
-        </div>
-        <div class="form-group">
-          <select class="form-input">
-            <option value="">Number of Guests</option>
-            <option value="1">1 Guest</option>
-            <option value="2">2 Guests</option>
-            <option value="3">3 Guests</option>
-            <option value="4">4 Guests</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <textarea placeholder="Any dietary restrictions or special requests?" class="form-input"></textarea>
-        </div>
-        <button class="btn btn-primary">Submit RSVP</button>
+    <div class="timeline-event">
+      <img src="assets/images/timeline_4.png" alt="Dinner" class="timeline-event-img" />
+      <div class="timeline-event-details">
+        <h3 class="event-title">Dinner</h3>
+        <div class="event-time">6:00 PM</div>
+        <div class="event-desc">A delicious dinner will be served in The Petite Ballroom with speeches and toasts!</div>
       </div>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Sawyer & Grace's Wedding. Made with ❤️</p>
+    <div class="timeline-event">
+      <img src="assets/images/timeline_5.png" alt="Snack" class="timeline-event-img" />
+      <div class="timeline-event-details">
+        <h3 class="event-title">Snack</h3>
+        <div class="event-time">9:00 PM</div>
+        <div class="event-desc">Late-night snacks and treats will be available to keep the celebration going strong.</div>
+      </div>
     </div>
-  </footer>
+    <div class="timeline-event">
+      <img src="assets/images/timeline_6.png" alt="Departure + Afterparty" class="timeline-event-img" />
+      <div class="timeline-event-details">
+        <h3 class="event-title">Departure + Afterparty</h3>
+        <div class="event-time">10:30 PM</div>
+        <div class="event-desc">Send-off for the newlyweds! For those who wish to continue celebrating, join us at The MGM Grand Casino!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <hr />
+
+  <section id="photo-album" class="homepage-section">
+    <h2>Photo Album</h2>
+    <p>Placeholder for photo album.</p>
+  </section>
 </div>
