@@ -40,13 +40,15 @@
       <button (click)="shuffleWords()" [disabled]="state !== 'playing'">Shuffle</button>
       <button (click)="deselectAll()" [disabled]="selectedIndices.length === 0 || state !== 'playing'">Deselect All</button>
       <button (click)="submit()" [disabled]="!canSubmit()">Submit</button>
+
+      <button (click)="skip()" style="margin-left: 40px;">Skip</button>
     </div>
     <div class="mistakes">
       <span *ngFor="let m of [].constructor(maxMistakes); let i = index"
             class="mistake-dot"
             [class.used]="i < mistakes"></span>
       <span class="mistake-label" aria-live="polite">
-        {{ maxMistakes - mistakes }} mistakes remaining
+        {{ maxMistakes - mistakes }} attempts remaining
       </span>
     </div>
   </div>
@@ -67,5 +69,11 @@
         </span>
       </div>
     </div>
+      <!-- RSVP Link: Show only when game is complete -->
+  <div *ngIf="isGameComplete()" class="rsvp-link">
+    <a href="https://your-google-form-link" target="_blank">RSVP Here</a>
   </div>
 </div>
+  </div>
+
+

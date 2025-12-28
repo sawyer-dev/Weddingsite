@@ -231,4 +231,17 @@ export class ConnectionsGame {
       indices
     }));
   }
+
+  skip() {
+    if (this.state !== 'playing') return;
+    this.state = 'lost';
+    this.selectedIndices = [];
+    this.cdr.detectChanges();
+  }
+
+  // Returns true if the game is over (win or skip/lose)
+  isGameComplete(): boolean {
+    return this.state === 'won' || this.state === 'lost';
+  }
+
 }
