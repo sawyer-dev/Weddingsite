@@ -55,6 +55,13 @@
   flex-wrap: wrap;
 }
 
+/* Apply site font to .found-group-row, .group-label, and .group-words for both in-game and end screen categories */
+.found-group-row,
+.group-label,
+.group-words {
+  font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
+}
+
 /* Grid */
 .words-grid {
   display: grid;
@@ -93,8 +100,9 @@
 }
 
 .word-btn {
+  font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
   padding: 1.1rem 0.5rem;
-  font-size: 1.1rem;
+  font-size: var(--dynamic-font-size, 1.1rem);
   border-radius: 10px;
   border: none;
   background: #f6f6ef;
@@ -105,6 +113,14 @@
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   outline: none;
   position: relative;
+  white-space: normal;
+  overflow: hidden;
+  text-align: center;
+  line-height: 1.1;
+  min-height: 2.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .word-btn.selected {
   background: #b5d682;
@@ -146,6 +162,7 @@
   justify-content: center;
 }
 .controls button {
+  font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
   padding: 0.5rem 1.2rem;
   border-radius: 20px;
   border: 1px solid #ccc;
@@ -180,6 +197,7 @@
   border: 1px solid #aaa;
 }
 .mistake-label {
+  font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
   margin-left: 1rem;
   font-size: 0.95rem;
 }
@@ -221,4 +239,27 @@
   color: #800000;
   font-weight: bold;
   text-decoration: underline;
+}
+
+/* Play Again Buttons */
+.play-again-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.play-again-row button {
+  font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 0 0.5rem;
+}
+.play-again-row button:disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
 }

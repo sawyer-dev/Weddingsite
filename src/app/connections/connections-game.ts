@@ -38,31 +38,61 @@ export class ConnectionsGame {
   collapseAnimating: number[] = [];
   focusIndex = 0;
   solvedOrder = 0;
+  mode: 'easy' | 'hard' = 'easy';
 
   constructor(private cdr: ChangeDetectorRef) {
     this.initGame();
   }
 
+  setMode(mode: 'easy' | 'hard') {
+    if (this.mode !== mode) {
+      this.mode = mode;
+      this.initGame();
+    }
+  }
+
   initGame() {
-    this.groups = [
-      { name: 'Colors', color: '#b5d682', difficulty: 0 },
-      { name: 'Fruits', color: '#f7e07e', difficulty: 1 },
-      { name: 'Animals', color: '#f9b5d1', difficulty: 2 },
-      { name: 'Cities', color: '#b5c7f7', difficulty: 3 }
-    ];
-    const wordList = [
-      { text: 'Red', group: 0 }, { text: 'Blue', group: 0 }, { text: 'Green', group: 0 }, { text: 'Yellow', group: 0 },
-      { text: 'Apple', group: 1 }, { text: 'Banana', group: 1 }, { text: 'Lime', group: 1 }, { text: 'Grape', group: 1 },
-      { text: 'Dog', group: 2 }, { text: 'Cat', group: 2 }, { text: 'Horse', group: 2 }, { text: 'Mouse', group: 2 },
-      { text: 'Paris', group: 3 }, { text: 'London', group: 3 }, { text: 'Tokyo', group: 3 }, { text: 'Rome', group: 3 }
-    ];
-    this.words = this.shuffle(wordList).map(w => ({
-      ...w,
-      selected: false,
-      solved: false,
-      animating: false,
-      focus: false
-    }));
+    if (this.mode === 'easy') {
+      this.groups = [
+        { name: 'Citrus Fruit', color: '#f7e07e', difficulty: 0 },
+        { name: 'Shades of Green', color: '#b5d682', difficulty: 1 },
+        { name: 'Names That Are Also Professions', color: '#b5c7f7', difficulty: 2 },
+        { name: 'Misspelled DnD Classes', color: '#f9b5d1', difficulty: 3 }
+      ];
+      const wordList = [
+        { text: 'Lime', group: 0 }, { text: 'Orange', group: 0 }, { text: 'Mandarin', group: 0 }, { text: 'Pomelo', group: 0 },
+        { text: 'Mint', group: 1 }, { text: 'Kelly', group: 1 }, { text: 'Sage', group: 1 }, { text: 'Olive', group: 1 },
+        { text: 'Smith', group: 2 }, { text: 'Sawyer', group: 2 }, { text: 'Carter', group: 2 }, { text: 'Mason', group: 2 },
+        { text: 'Rouge', group: 3 }, { text: 'Brad', group: 3 }, { text: 'Palladium', group: 3 }, { text: 'Clerk', group: 3 }
+      ];
+      this.words = this.shuffle(wordList).map(w => ({
+        ...w,
+        selected: false,
+        solved: false,
+        animating: false,
+        focus: false
+      }));
+    } else {
+      this.groups = [
+        { name: 'Food/drink found at our wedding', color: '#f7e07e', difficulty: 0 },
+        { name: 'Things Grace owns that are red', color: '#f9b5d1', difficulty: 1 },
+        { name: 'Things Sawyer owns that are green', color: '#b5d682', difficulty: 2 },
+        { name: 'Words pronounced the same in Chinese', color: '#b5c7f7', difficulty: 3 }
+      ];
+      const wordList = [
+        { text: 'Hot dogs', group: 0 }, { text: 'Cake', group: 0 }, { text: 'Champagne', group: 0 }, { text: 'Moscow Mule', group: 0 },
+        { text: 'Dress', group: 1 }, { text: 'Ring', group: 1 }, { text: 'Phone case', group: 1 }, { text: 'Wool coat', group: 1 },
+        { text: 'Cloak', group: 2 }, { text: 'Leather jacket', group: 2 }, { text: 'Dice', group: 2 }, { text: 'Username', group: 2 },
+        { text: 'Mango', group: 3 }, { text: 'Coffee', group: 3 }, { text: 'Pizza', group: 3 }, { text: 'Chocolate', group: 3 }
+      ];
+      this.words = this.shuffle(wordList).map(w => ({
+        ...w,
+        selected: false,
+        solved: false,
+        animating: false,
+        focus: false
+      }));
+    }
     this.selectedIndices = [];
     this.foundGroups = [];
     this.mistakes = 0;
@@ -242,6 +272,26 @@ export class ConnectionsGame {
   // Returns true if the game is over (win or skip/lose)
   isGameComplete(): boolean {
     return this.state === 'won' || this.state === 'lost';
+  }
+
+  playAgain(hard: boolean = false) {
+    this.setMode(hard ? 'hard' : 'easy');
+  }
+
+  getWordsForGroup(gIdx: number): Word[] {
+    // Collect all words (solved and unsolved) that belong to group gIdx
+    return this.words.filter(w => w.group === gIdx);
+  }
+
+  getFontSize(text: string): string {
+    // Clamp font size between 0.7rem and 1.1rem, scale down more for longer words
+    const base = 1.1;
+    const min = 0.7;
+    const len = text.length;
+    // For words longer than 8, scale down more aggressively
+    let size = base - Math.max(0, (len - 8) * 0.07);
+    if (size < min) size = min;
+    return size + 'rem';
   }
 
 }

@@ -7,8 +7,8 @@
          [attr.data-difficulty]="groups[fg.group].difficulty">
       <span class="group-label">{{ groups[fg.group].name }}</span>
       <span class="group-words">
-        <ng-container *ngFor="let i of fg.indices">
-          {{ words[i].text }}
+        <ng-container *ngFor="let i of fg.indices; let last = last">
+          {{ words[i].text }}<ng-container *ngIf="!last">,</ng-container>
         </ng-container>
       </span>
     </div>
@@ -27,6 +27,7 @@
           (click)="toggleSelect(i)"
           (focus)="setFocus(i)"
           [disabled]="state !== 'playing' || w.animating"
+          [style.--dynamic-font-size]="getFontSize(w.text)"
         >
           {{ w.text }}
         </button>
@@ -58,22 +59,27 @@
     <div *ngIf="state === 'won'" class="endgame-message">You did it!</div>
     <div *ngIf="state === 'lost'" class="endgame-message">Out of guesses!</div>
     <div class="reveal-groups">
-      <div *ngFor="let g of getUnsolvedGroups()" class="found-group-row"
-           [style.background]="groups[g.group].color"
-           [attr.data-difficulty]="groups[g.group].difficulty">
-        <span class="group-label">{{ groups[g.group].name }}</span>
+      <!-- Show all groups and their words, not just unsolved -->
+      <div *ngFor="let group of groups; let gIdx = index" class="found-group-row"
+           [style.background]="group.color"
+           [attr.data-difficulty]="group.difficulty">
+        <span class="group-label">{{ group.name }}</span>
         <span class="group-words">
-          <ng-container *ngFor="let i of g.indices">
-            {{ words[i].text }}
+          <ng-container *ngFor="let w of getWordsForGroup(gIdx); let last = last">
+            {{ w.text }}<ng-container *ngIf="!last">,</ng-container>
           </ng-container>
         </span>
       </div>
     </div>
-      <!-- RSVP Link: Show only when game is complete -->
-  <div *ngIf="isGameComplete()" class="rsvp-link">
-    <a href="https://your-google-form-link" target="_blank">RSVP Here</a>
+    <!-- RSVP Link: Show only when game is complete -->
+    <div *ngIf="isGameComplete()" class="rsvp-link">
+      <a href="https://your-google-form-link" target="_blank">RSVP Here</a>
+    </div>
+    <div class="play-again-row">
+      <button (click)="playAgain(false)">Play Again (Easy)</button>
+      <button (click)="playAgain(true)">Play Again (Hard)</button>
+    </div>
   </div>
 </div>
-  </div>
 
 
