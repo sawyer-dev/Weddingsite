@@ -39,16 +39,15 @@ export class ConnectionsGame {
   focusIndex = 0;
   solvedOrder = 0;
   mode: 'easy' | 'hard' = 'easy';
+  lastOneAway = false;
 
   constructor(private cdr: ChangeDetectorRef) {
     this.initGame();
   }
 
   setMode(mode: 'easy' | 'hard') {
-    if (this.mode !== mode) {
-      this.mode = mode;
-      this.initGame();
-    }
+    this.mode = mode;
+    this.initGame();
   }
 
   initGame() {
@@ -140,6 +139,23 @@ export class ConnectionsGame {
     const groupNum = this.words[this.selectedIndices[0]].group;
     const isCorrect = this.selectedIndices.every(i => this.words[i].group === groupNum) &&
       !this.foundGroups.some(g => g.group === groupNum);
+
+    // Check for one-away before clearing selection
+    this.lastOneAway = false;
+    if (!isCorrect) {
+      const groupCounts: Record<number, number> = {};
+      for (const i of this.selectedIndices) {
+        const group = this.words[i].group;
+        groupCounts[group] = (groupCounts[group] || 0) + 1;
+      }
+      if (Object.values(groupCounts).includes(3)) {
+        this.lastOneAway = true;
+        setTimeout(() => {
+          this.lastOneAway = false;
+          this.cdr.detectChanges();
+        }, 3000);
+      }
+    }
 
     if (isCorrect) {
       this.collapseAnimating = [...this.selectedIndices];
@@ -287,11 +303,41 @@ export class ConnectionsGame {
     // Clamp font size between 0.7rem and 1.1rem, scale down more for longer words
     const base = 1.1;
     const min = 0.7;
-    const len = text.length;
+    // Find the longest word in the string
+    const words = text.split(/\s+/);
+    const maxWordLen = words.reduce((max, w) => Math.max(max, w.length), 0);
     // For words longer than 8, scale down more aggressively
-    let size = base - Math.max(0, (len - 8) * 0.07);
+    let size = base - Math.max(0, (maxWordLen - 8) * 0.07);
     if (size < min) size = min;
     return size + 'rem';
+  }
+
+  /**
+   * Returns an array of group indices: first the ones guessed (in the order solved), then the unguessed ones (in original order)
+   */
+  getEndgameGroupOrder(): number[] {
+    // Get the order of solved groups
+    const solved = this.foundGroups
+      .sort((a, b) => a.order - b.order)
+      .map(fg => fg.group);
+    // Add unsolved group indices
+    const all = Array.from({ length: this.groups.length }, (_, i) => i);
+    const unsolved = all.filter(idx => !solved.includes(idx));
+    return [...solved, ...unsolved];
+  }
+
+  /**
+   * Returns true if the current selection is one word away from a correct group (i.e., 3 of the same group, 1 not).
+   */
+  isOneAway(): boolean {
+    if (this.state !== 'playing' || this.selectedIndices.length !== 4) return false;
+    const groupCounts: Record<number, number> = {};
+    for (const i of this.selectedIndices) {
+      const group = this.words[i].group;
+      groupCounts[group] = (groupCounts[group] || 0) + 1;
+    }
+    // Look for a group with exactly 3 selected, and the other is not that group
+    return Object.values(groupCounts).includes(3);
   }
 
 }

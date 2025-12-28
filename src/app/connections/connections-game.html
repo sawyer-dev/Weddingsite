@@ -1,84 +1,94 @@
 <div class="connections-board">
   <!-- Solved Groups + Word Grid with background -->
   <div class="connections-game-bg">
-    <!-- Solved groups (foundGroupRow) -->
-    <div *ngFor="let fg of foundGroups" class="found-group-row"
-         [style.background]="groups[fg.group].color"
-         [attr.data-difficulty]="groups[fg.group].difficulty">
-      <span class="group-label">{{ groups[fg.group].name }}</span>
-      <span class="group-words">
-        <ng-container *ngFor="let i of fg.indices; let last = last">
-          {{ words[i].text }}<ng-container *ngIf="!last">,</ng-container>
+    <!-- Solved groups (foundGroupRow): Only show when playing -->
+    <ng-container *ngIf="state === 'playing'">
+      <div *ngFor="let fg of foundGroups" class="found-group-row"
+           [style.background]="groups[fg.group].color"
+           [attr.data-difficulty]="groups[fg.group].difficulty">
+        <span class="group-label">{{ groups[fg.group].name }}</span>
+        <span class="group-words">
+          <ng-container *ngFor="let i of fg.indices; let last = last">
+            {{ words[i].text }}<ng-container *ngIf="!last">,</ng-container>
+          </ng-container>
+        </span>
+      </div>
+    </ng-container>
+    <!-- Show answers instead of grid when game is over -->
+    <ng-container *ngIf="state !== 'playing'; else wordGrid">
+      <div class="reveal-groups">
+        <div *ngFor="let groupIdx of getEndgameGroupOrder(); let gIdx = index" class="found-group-row"
+             [style.background]="groups[groupIdx].color"
+             [attr.data-difficulty]="groups[groupIdx].difficulty">
+          <span class="group-label">{{ groups[groupIdx].name }}</span>
+          <span class="group-words">
+            <ng-container *ngFor="let w of getWordsForGroup(groupIdx); let last = last">
+              {{ w.text }}<ng-container *ngIf="!last">,</ng-container>
+            </ng-container>
+          </span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #wordGrid>
+      <div class="words-grid" role="grid" aria-label="Connections word grid" [class.shake]="shake">
+        <ng-container *ngFor="let w of words; let i = index">
+          <button
+            *ngIf="!w.solved"
+            class="word-btn"
+            [class.selected]="w.selected"
+            [class.animating]="w.animating"
+            [class.focused]="w.focus"
+            [attr.aria-label]="getAriaLabel(i)"
+            [attr.aria-pressed]="w.selected"
+            [attr.tabindex]="w.focus ? 0 : -1"
+            (click)="toggleSelect(i)"
+            (focus)="setFocus(i)"
+            [disabled]="state !== 'playing' || w.animating"
+            [style.--dynamic-font-size]="getFontSize(w.text)"
+          >
+            {{ w.text }}
+          </button>
         </ng-container>
-      </span>
-    </div>
-    <!-- Grid -->
-    <div class="words-grid" role="grid" aria-label="Connections word grid" [class.shake]="shake">
-      <ng-container *ngFor="let w of words; let i = index">
-        <button
-          *ngIf="!w.solved"
-          class="word-btn"
-          [class.selected]="w.selected"
-          [class.animating]="w.animating"
-          [class.focused]="w.focus"
-          [attr.aria-label]="getAriaLabel(i)"
-          [attr.aria-pressed]="w.selected"
-          [attr.tabindex]="w.focus ? 0 : -1"
-          (click)="toggleSelect(i)"
-          (focus)="setFocus(i)"
-          [disabled]="state !== 'playing' || w.animating"
-          [style.--dynamic-font-size]="getFontSize(w.text)"
-        >
-          {{ w.text }}
-        </button>
-      </ng-container>
-    </div>
+      </div>
+    </ng-template>
   </div>
 
   <!-- Controls & Mistakes: OUTSIDE the background image -->
   <div class="game-controls-row">
-    <div class="controls">
-      <button (click)="shuffleWords()" [disabled]="state !== 'playing'">Shuffle</button>
-      <button (click)="deselectAll()" [disabled]="selectedIndices.length === 0 || state !== 'playing'">Deselect All</button>
-      <button (click)="submit()" [disabled]="!canSubmit()">Submit</button>
-
-      <button (click)="skip()" style="margin-left: 40px;">Skip</button>
-    </div>
-    <div class="mistakes">
-      <span *ngFor="let m of [].constructor(maxMistakes); let i = index"
-            class="mistake-dot"
-            [class.used]="i < mistakes"></span>
-      <span class="mistake-label" aria-live="polite">
-        {{ maxMistakes - mistakes }} attempts remaining
-      </span>
-    </div>
-  </div>
-
-  <!-- Endgame Overlay -->
-  <div *ngIf="state !== 'playing'" class="endgame-overlay" tabindex="0" aria-live="assertive">
-    <div *ngIf="state === 'won'" class="endgame-message">You did it!</div>
-    <div *ngIf="state === 'lost'" class="endgame-message">Out of guesses!</div>
-    <div class="reveal-groups">
-      <!-- Show all groups and their words, not just unsolved -->
-      <div *ngFor="let group of groups; let gIdx = index" class="found-group-row"
-           [style.background]="group.color"
-           [attr.data-difficulty]="group.difficulty">
-        <span class="group-label">{{ group.name }}</span>
-        <span class="group-words">
-          <ng-container *ngFor="let w of getWordsForGroup(gIdx); let last = last">
-            {{ w.text }}<ng-container *ngIf="!last">,</ng-container>
+    <ng-container *ngIf="state === 'playing'; else endgameControls">
+      <div class="controls">
+        <button (click)="shuffleWords()" [disabled]="state !== 'playing'">Shuffle</button>
+        <button (click)="deselectAll()" [disabled]="selectedIndices.length === 0 || state !== 'playing'">Deselect All</button>
+        <button (click)="submit()" [disabled]="!canSubmit()">Submit</button>
+        <button (click)="skip()" style="margin-left: 40px;">Skip</button>
+      </div>
+      <div class="mistakes">
+        <span *ngFor="let m of [].constructor(maxMistakes); let i = index"
+              class="mistake-dot"
+              [class.used]="i < mistakes"></span>
+        <span class="mistake-label" aria-live="polite">
+          <ng-container *ngIf="lastOneAway; else notOneAway">
+            <span style="text-decoration: underline; font-weight: bold;">One away!</span>
           </ng-container>
+            <ng-template #notOneAway>
+              {{ maxMistakes - mistakes }} attempts remaining
+            </ng-template>
         </span>
       </div>
-    </div>
-    <!-- RSVP Link: Show only when game is complete -->
-    <div *ngIf="isGameComplete()" class="rsvp-link">
-      <a href="https://your-google-form-link" target="_blank">RSVP Here</a>
-    </div>
-    <div class="play-again-row">
-      <button (click)="playAgain(false)">Play Again (Easy)</button>
-      <button (click)="playAgain(true)">Play Again (Hard)</button>
-    </div>
+    </ng-container>
+    <ng-template #endgameControls>
+      <div class="endgame-controls">
+        <div *ngIf="state === 'won'" class="endgame-message">You did it!</div>
+        <div *ngIf="state === 'lost'" class="endgame-message">Out of guesses!</div>
+        <div *ngIf="isGameComplete()" class="rsvp-link">
+          <a href="https://your-google-form-link" target="_blank">RSVP Here</a>
+        </div>
+        <div class="play-again-row">
+          <button (click)="playAgain(false)">Play Again (Easy)</button>
+          <button (click)="playAgain(true)">Play Again (Hard)</button>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
 
