@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Chancery&family=Playfair+Display:wght@400;700&family=Georgia&display=swap');
+@import './info-section.css';
 
 html {
   scroll-behavior: smooth;

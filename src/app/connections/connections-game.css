@@ -231,14 +231,14 @@
   gap: 0.5rem;
 }
 .rsvp-link {
-  margin: 2rem auto 0 auto;
-  font-size: 1.3rem;
+  font-size: 2.5rem;
   text-align: center;
+  font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
 }
 .rsvp-link a {
   color: #800000;
   font-weight: bold;
-  text-decoration: underline;
+  
 }
 
 /* Play Again Buttons */
