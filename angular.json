@@ -89,7 +89,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "https://sawyer-dev.github.io/Weddingsite/"
+            "baseHref": "/"
           }
         }
       }
