@@ -9,7 +9,9 @@
   min-height: 525px;
   /* Center content vertically in the background image */
   justify-content: center;
-  /* Add top and bottom padding for better alignment */
+  /* Ensure content boxes are measured consistently */
+  box-sizing: border-box;
+  /* Add top and bottom padding for better alignment when needed */
   /* padding-top: 3.5rem;
   padding-bottom: 3.5rem; */
   margin-top: 2rem;
@@ -26,6 +28,8 @@
   position: relative;
   margin: 0 auto;
   max-width: 520px;
+  box-sizing: border-box;
+  --found-row-height: 44px;
 }
 
 /* Solved Groups */
@@ -39,7 +43,7 @@
   padding: 0.7rem 0.5rem 0.3rem 0.5rem;
   font-size: 1.1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-  min-height: 44px;
+  min-height: var(--found-row-height, 44px);
   gap: 1.2rem;
   width: 100%;
   max-width: 350px;
@@ -70,7 +74,7 @@
   gap: 1rem;
   width: 100%;
   max-width: 350px;
-  min-width: 280px;
+  min-width: 0;
   min-height: 0;
   margin: 0 auto 0 auto;
   transition: box-shadow 0.2s;
@@ -80,7 +84,7 @@
   min-width: 0;
   min-height: 0;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   box-sizing: border-box;
 }
 .empty-slot {
@@ -117,7 +121,7 @@
   overflow: hidden;
   text-align: center;
   line-height: 1.1;
-  min-height: 2.2em;
+  min-height: var(--found-row-height, 44px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -175,6 +179,12 @@
   background: #eee;
   color: #aaa;
   cursor: not-allowed;
+}
+
+/* Default desktop Skip button spacing */
+.skip-btn {
+  margin-left: 40px;
+  padding: 0.4rem 0.85rem;
 }
 
 /* Mistakes */
@@ -262,4 +272,170 @@
   background: #eee;
   color: #aaa;
   cursor: not-allowed;
+}
+
+/* Mobile adjustments */
+@media (max-width: 700px) {
+  .connections-game-bg {
+    /* Remove the inline background on mobile and render it via ::before so
+       we can scale it larger than the element without clipping the edges. */
+    background: none;
+    position: relative;
+    overflow: visible;
+    max-width: 92vw;
+    min-height: 560px;
+    margin-top: 1.25rem;
+    padding: 1.2rem 0.8rem;
+    box-sizing: border-box;
+    --found-row-height: 48px;
+  }
+
+  .connections-game-bg::before {
+    content: "";
+    position: absolute;
+    /* expand beyond the box so the decorative corners remain visible */
+    top: -6%;
+    left: -6%;
+    right: -6%;
+    bottom: -6%;
+    background: url('/assets/images/connections_border.jpg') center/110% auto no-repeat;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .connections-board {
+    width: 100%;
+    max-width: 420px;
+    padding: 0 0.75rem 1rem 0.75rem;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1; /* render above the decorative frame pseudo-element */
+  }
+
+  .words-grid {
+    width: 100%;
+    max-width: 340px;
+    min-width: 0;
+    gap: 0.45rem;
+  }
+
+  /* Make revealed groups and word buttons the same height on mobile (700px and below).
+     These rules are intentionally scoped to this media query so desktop styles remain unchanged. */
+  .found-group-row {
+    min-height: var(--found-row-height, 44px);
+    box-sizing: border-box;
+    padding: 0.45rem 0.6rem;
+    /* allow multi-line content to expand the row on mobile */
+    align-items: center;
+    background: #f6d682; /* visible highlighted background for revealed groups */
+    color: #222;
+    position: relative;
+    z-index: 2;
+    gap: 0;
+  }
+
+  .group-label {
+    margin-right: 0.2rem;
+  }
+
+  .word-btn {
+    /* padding: 0 0.28rem; */
+    font-size: var(--dynamic-font-size, 0.78rem);
+    height: var(--found-row-height, 44px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .game-controls-row {
+    margin-top: 2rem;
+    gap: 0.9rem;
+  }
+  /* Mobile: remove extra left margin from Skip so controls stay inline */
+  .skip-btn {
+    margin-left: 0 !important;
+    padding: 0.4rem 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .connections-game-bg {
+    background: none;
+    position: relative;
+    overflow: visible;
+    max-width: 94vw;
+    min-height: 520px;
+    padding: 1rem 0.6rem;
+    box-sizing: border-box;
+    --found-row-height: 52px;
+  }
+
+  .connections-game-bg::before {
+    content: "";
+    position: absolute;
+    top: -7%;
+    left: -7%;
+    right: -7%;
+    bottom: -7%;
+    background: url('/assets/images/connections_border.jpg') center/115% auto no-repeat;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .connections-board {
+    max-width: 360px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+
+  .words-grid {
+    width: 100%;
+    max-width: 320px;
+    min-width: 0;
+    gap: 0.35rem;
+  }
+
+  /* Small breakpoint: force equal heights for revealed groups and word buttons.
+     Scoped to this media query so desktop remains unchanged. */
+  .found-group-row {
+    min-height: var(--found-row-height, 44px);
+    box-sizing: border-box;
+    padding: 0.45rem 0.6rem;
+    /* allow multi-line content to expand the row on very small screens */
+    align-items: center;
+    background: #f6d682; /* visible highlighted background for revealed groups */
+    color: #222;
+    position: relative;
+    z-index: 2;
+    gap: 0;
+  }
+
+  .group-label {
+    margin-right: 0.2rem;
+  }
+
+  .word-btn {
+    padding: 0 0.28rem;
+    font-size: var(--dynamic-font-size, 0.75rem);
+    height: var(--found-row-height, 44px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .controls {
+    gap: 0.35rem;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .controls button {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.92rem;
+  }
+
 }

@@ -4,13 +4,44 @@
 
 
 <div class="main-content">
-  <section
-      *ngIf="showHiddenSection"
-      class="hidden-section"
-  >
-    <h3>You're past the Welcome section!</h3>
-    <img src="assets/images/hidden.gif" alt="Hidden surprise" style="max-width: 100%; height: auto;" />
+  <button *ngIf="showHiddenSection" aria-label="Photo Album icon" class="section-divider-btn" (click)="iconClick('hidden')">
+    <span *ngIf="iconBadges.hidden !== null" class="icon-badge">{{ iconBadges.hidden }}</span>
+    <img src="assets/images/moons.png" alt="Photo Album icon" class="section-divider-img"  [class.pushed]="iconBadges.hidden !== null"/>
+  </button>
+
+  <section *ngIf="showHiddenSection" class="hidden-section">
+    <div class="pin-panel">
+      <h3 *ngIf="!revealed">Enter Secret Combination</h3>
+      <h3 *ngIf="revealed">Correct!</h3>
+      <div class="pin-slots" aria-hidden="false">
+        <span *ngFor="let n of [0,1,2,3,4,5]; let i = index" class="pin-slot">{{ clickedSequence[i] !== undefined ? clickedSequence[i] : '' }}</span>
+      </div>
+      <div class="pin-controls">
+        <button class="pin-btn" (click)="clearSequence()" [disabled]="revealed">Clear</button>
+      </div>
+
+      <div class="numpad" role="group" aria-label="PIN numpad">
+        <button class="numpad-btn" *ngFor="let d of [1,2,3]" (click)="pressDigit(d)">{{ d }}</button>
+        <button class="numpad-btn" *ngFor="let d of [4,5,6]" (click)="pressDigit(d)">{{ d }}</button>
+        <button class="numpad-btn" *ngFor="let d of [7,8,9]" (click)="pressDigit(d)">{{ d }}</button>
+        <button [disabled]="revealed" class="numpad-btn backspace" (click)="backspace()" aria-label="Backspace">⌫</button>
+        <button class="numpad-btn" (click)="pressDigit(0)">0</button>
+        <button class="numpad-btn submit" (click)="submitCombination()" [disabled]="clickedSequence.length !== 6 || revealed">OK</button>
+      </div>
+      <div class="pin-message" *ngIf="pinMessage">{{ pinMessage }}</div>
+      <div class="secret-phrase" *ngIf="revealed">{{ secretPhrase }}</div>
+      <p class="pin-hint" *ngIf="!revealed">( Raise, stand, or fold? )</p>
+    </div>
   </section>
+
+  <img *ngIf="showHiddenSection" src="assets/images/moons.png" alt="Information corner icon" class="section-corner-icon section-corner--hidden" [class.pushed-corner]="iconBadges.hidden !== null"/>
+  <span *ngIf="iconBadges.hidden !== null" class="corner-icon-badge">{{ iconBadges.hidden }}</span>
+  <hr *ngIf="showHiddenSection"/>
+
+  <button aria-label="Home icon" class="section-divider-btn" (click)="iconClick('home')" [class.home-pushed-up]="iconBadges.home == null && !showHiddenSection" [class.home-pushed-up-down]="iconBadges.home !== null && !showHiddenSection">
+    <span *ngIf="iconBadges.home !== null" class="icon-badge">{{ iconBadges.home }}</span>
+    <img src="assets/images/spades.png" alt="Home icon" class="section-divider-img" [class.pushed]="iconBadges.home !== null"/>
+  </button>
 
   <section id="home" class="homepage-section">
     <!-- <h2>Welcome</h2> -->
@@ -21,20 +52,36 @@
     </div>
   </section>
 
+  <img src="assets/images/spades.png" alt="Information corner icon" class="section-corner-icon section-corner--home" [class.pushed-corner]="iconBadges.home !== null"/>
+  <span *ngIf="iconBadges.home !== null" class="corner-icon-badge">{{ iconBadges.home }}</span>
   <hr />
+  <button aria-label="RSVP icon" class="section-divider-btn" (click)="iconClick('rsvp')">
+    <span *ngIf="iconBadges.rsvp !== null" class="icon-badge">{{ iconBadges.rsvp }}</span>
+    <img src="assets/images/hearts.png" alt="RSVP icon" class="section-divider-img" [class.pushed]="iconBadges.rsvp !== null"/>
+  </button>
 
   <section id="rsvp" class="homepage-section">
-    <h2 style="font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;">RSVP</h2>
+    <div class="section-header">
+      <h2 style="font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;">RSVP</h2>
+    </div>
     <div class="rsvp-subheading" style="font-size:1.2rem; color:#555; margin-bottom:1.2rem; font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;">
       Play our game to unlock the RSVP form!
     </div>
     <connections-game></connections-game>
   </section>
 
+  <img src="assets/images/hearts.png" alt="RSVP corner icon" class="section-corner-icon section-corner--rsvp" [class.pushed-corner]="iconBadges.rsvp !== null"/>
+  <span *ngIf="iconBadges.rsvp !== null" class="corner-icon-badge">{{ iconBadges.rsvp }}</span>
   <hr />
+  <button aria-label="Information icon" class="section-divider-btn" (click)="iconClick('info')">
+    <span *ngIf="iconBadges.info !== null" class="icon-badge">{{ iconBadges.info }}</span>
+    <img src="assets/images/clubs.png" alt="Information icon" class="section-divider-img" [class.pushed]="iconBadges.info !== null"/>
+  </button>
 
   <section id="info" class="homepage-section info-section">
-    <h2 style="font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;">Information</h2>
+    <div class="section-header">
+      <h2 style="font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;">Information</h2>
+    </div>
     <div class="info-subsection">
       <img src="assets/images/colonyclub.png" alt="Venue" class="info-img" />
       <div class="info-content">
@@ -46,7 +93,7 @@
       <img src="assets/images/hotels.png" alt="Hotels" class="info-img" />
       <div class="info-content">
         <h3 class="info-title">Hotels</h3>
-        <p class="info-blurb">There are several Hotels nearby, as well as AirBnB/VRBOs that can accommodate large parties in Detroit.</p>
+        <p class="info-blurb">There are several Hotels nearby, as well as AirBnB/VRBOs that can accommodate large parties in and around Detroit.</p>
       </div>
     </div>
     <div class="info-subsection">
@@ -93,66 +140,92 @@
     </div>
   </section>
 
-  <hr />
+  <img src="assets/images/clubs.png" alt="Information corner icon" class="section-corner-icon section-corner--info" [class.pushed-corner]="iconBadges.info !== null"/>
+  <span *ngIf="iconBadges.info !== null" class="corner-icon-badge">{{ iconBadges.info }}</span>
+  <hr />    
+  <button aria-label="Timeline icon" class="section-divider-btn" (click)="iconClick('timeline')" >
+    <span *ngIf="iconBadges.timeline !== null" class="icon-badge">{{ iconBadges.timeline }}</span>
+    <img src="assets/images/diamonds.png" alt="Timeline icon" class="section-divider-img" [class.pushed]="iconBadges.timeline !== null"/>
+  </button>
 
   <section id="timeline" class="homepage-section">
-  <h2>Timeline</h2>
+  <div class="section-header">
+    <h2>Timeline</h2>
+  </div>
   <div class="timeline-events">
-    <div class="timeline-event">
-      <img src="assets/images/timeline_1.png" alt="Arrival" class="timeline-event-img" />
-      <div class="timeline-event-details">
-        <h3 class="event-title">Arrival</h3>
-        <div class="event-time">4:00 PM</div>
-        <div class="event-desc">Guests arrive and are welcomed to The Colony Club.</div>
+    <div class="timeline-subsection">
+      <img src="assets/images/timeline_1.png" alt="Arrival" class="timeline-img" />
+      <div class="timeline-content">
+        <h3 class="timeline-title">4:00 pm - Arrival</h3>
+        <p class="timeline-blurb">Guests arrive and are welcomed to The Colony Club.</p>
       </div>
     </div>
-    <div class="timeline-event">
-      <img src="assets/images/timeline_2.png" alt="Ceremony" class="timeline-event-img" />
-      <div class="timeline-event-details">
-        <h3 class="event-title">Ceremony</h3>
-        <div class="event-time">4:30 PM</div>
-        <div class="event-desc">Join us as we exchange vows and begin our new life together.</div>
+
+    <div class="timeline-subsection">
+      <img src="assets/images/timeline_2.png" alt="Ceremony" class="timeline-img" />
+      <div class="timeline-content">
+        <h3 class="timeline-title">4:30 pm - Ceremony</h3>
+        <p class="timeline-blurb">Join us as we exchange vows and begin our new life together.</p>
       </div>
     </div>
-    <div class="timeline-event">
-      <img src="assets/images/timeline_3.png" alt="Cocktail Hour" class="timeline-event-img" />
-      <div class="timeline-event-details">
-        <h3 class="event-title">Cocktail Hour</h3>
-        <div class="event-time">5:00 PM</div>
-        <div class="event-desc">Enjoy drinks and appetizers at The Bar Charles while mingling with friends and family.</div>
+
+    <div class="timeline-subsection">
+      <img src="assets/images/timeline_3.png" alt="Cocktail Hour" class="timeline-img" />
+      <div class="timeline-content">
+        <h3 class="timeline-title">5:00 pm - Cocktail Hour</h3>
+        <p class="timeline-blurb">Enjoy drinks and appetizers at The Bar Charles while mingling with friends and family.</p>
       </div>
     </div>
-    <div class="timeline-event">
-      <img src="assets/images/timeline_4.png" alt="Dinner" class="timeline-event-img" />
-      <div class="timeline-event-details">
-        <h3 class="event-title">Dinner</h3>
-        <div class="event-time">6:00 PM</div>
-        <div class="event-desc">A delicious dinner will be served in The Petite Ballroom with speeches and toasts!</div>
+
+    <div class="timeline-subsection">
+      <img src="assets/images/timeline_4.png" alt="Dinner" class="timeline-img" />
+      <div class="timeline-content">
+        <h3 class="timeline-title">6:00 pm - Dinner</h3>
+        <p class="timeline-blurb">A delicious dinner will be served in The Petite Ballroom with speeches and toasts!</p>
       </div>
     </div>
-    <div class="timeline-event">
-      <img src="assets/images/timeline_5.png" alt="Snack" class="timeline-event-img" />
-      <div class="timeline-event-details">
-        <h3 class="event-title">Snack</h3>
-        <div class="event-time">9:00 PM</div>
-        <div class="event-desc">Late-night snacks and treats will be available to keep the celebration going strong.</div>
+
+    <div class="timeline-subsection">
+      <img src="assets/images/timeline_5.png" alt="Snack" class="timeline-img" />
+      <div class="timeline-content">
+        <h3 class="timeline-title">9:00 pm - Snack</h3>
+        <p class="timeline-blurb">Late-night snacks and treats will be available to keep the celebration going strong.</p>
       </div>
     </div>
-    <div class="timeline-event">
-      <img src="assets/images/timeline_6.png" alt="Departure + Afterparty" class="timeline-event-img" />
-      <div class="timeline-event-details">
-        <h3 class="event-title">Departure + Afterparty</h3>
-        <div class="event-time">10:30 PM</div>
-        <div class="event-desc">Send-off for the newlyweds! For those who wish to continue celebrating, join us at The MGM Grand Casino!</div>
+
+    <div class="timeline-subsection">
+      <img src="assets/images/timeline_6.png" alt="Departure + Afterparty" class="timeline-img" />
+      <div class="timeline-content">
+        <h3 class="timeline-title">10:30 pm - Departure + Afterparty</h3>
+        <p class="timeline-blurb">Send-off for the newlyweds! For those who wish to continue celebrating, join us at The MGM Grand Casino!</p>
       </div>
     </div>
   </div>
 </section>
 
+  <img src="assets/images/diamonds.png" alt="Timeline corner icon" class="section-corner-icon section-corner--timeline" [class.pushed-corner]="iconBadges.timeline !== null"/>
+  <span *ngIf="iconBadges.timeline !== null" class="corner-icon-badge">{{ iconBadges.timeline }}</span>
   <hr />
+  <button aria-label="Photo Album icon" class="section-divider-btn" (click)="iconClick('photo')">
+    <span *ngIf="iconBadges.photo !== null" class="icon-badge">{{ iconBadges.photo }}</span>
+    <img src="assets/images/stars.png" alt="Photo Album icon" class="section-divider-img"  [class.pushed]="iconBadges.photo !== null"/>
+  </button>
 
   <section id="photo-album" class="homepage-section">
-    <h2>Photo Album</h2>
-    <p>Placeholder for photo album.</p>
+    <div class="section-header">
+      <h2>Photo Album</h2>
+    </div>
+    <div class="album-preview" style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+      <div class="thumbs" style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;max-width:640px;">
+        <img src="assets/images/album1.jpg" alt="Album photo 1" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
+        <img src="assets/images/album2.jpg" alt="Album photo 2" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
+        <img src="assets/images/album3.jpg" alt="Album photo 3" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
+        <img src="assets/images/album4.jpg" alt="Album photo 4" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
+      </div>
+      <p style="max-width:720px;text-align:center;color:#444;margin:0;">Click the button below to view the full photo album.</p>
+      <a href="https://photos.app.goo.gl/zEpBaw9xRs3wh4us9" target="_blank" rel="noopener" class="album-btn" style="display:inline-block;margin-top:0.6rem;padding:0.6rem 1rem;border-radius:8px;background:#3f0706;color:#fff;text-decoration:none;font-weight:600;">View Full Album</a>
+    </div>
   </section>
+  <img src="assets/images/stars.png" alt="Photo Album corner icon" class="section-corner-icon section-corner--photo"  [class.pushed-corner]="iconBadges.photo !== null"/>
+  <span *ngIf="iconBadges.photo !== null" class="corner-icon-badge">{{ iconBadges.photo }}</span>
 </div>

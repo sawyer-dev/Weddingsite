@@ -60,7 +60,7 @@
         <button (click)="shuffleWords()" [disabled]="state !== 'playing'">Shuffle</button>
         <button (click)="deselectAll()" [disabled]="selectedIndices.length === 0 || state !== 'playing'">Deselect All</button>
         <button (click)="submit()" [disabled]="!canSubmit()">Submit</button>
-        <button (click)="skip()" style="margin-left: 40px;">Skip</button>
+        <button class="skip-btn" (click)="skip()">Skip</button>
       </div>
       <div class="mistakes">
         <span *ngFor="let m of [].constructor(maxMistakes); let i = index"
@@ -85,7 +85,7 @@
           <div class="endgame-subtext" style="font-size:1.1rem; margin-top:0.5rem; font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;">Please use the link below to RSVP</div>
         </div>
         <div *ngIf="isGameComplete()" class="rsvp-link">
-          <a href="https://your-google-form-link" target="_blank">RSVP Here</a>
+          <a href="https://forms.gle/iseT2i9Mo2vdQAGK7" target="_blank">RSVP Here</a>
         </div>
         <div class="play-again-row">
           <button (click)="playAgain(false)">Play Again (Easy)</button>

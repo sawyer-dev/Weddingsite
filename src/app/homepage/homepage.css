@@ -34,6 +34,199 @@ body {
   scroll-margin-top: 150px;
 }
 
+/* allow absolutely positioned icons inside sections */
+.homepage-section {
+  position: relative;
+}
+
+/* Section header wrapper so icons can be positioned closer to the title */
+.section-header {
+  display: inline-block;
+  position: relative;
+}
+
+.section-header h2 {
+  margin: 0;
+  display: inline-block;
+  font-size: inherit;
+}
+
+/* Icons positioned just above the title, so they sit just under the divider */
+.section-divider-btn {
+  display: inline-block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0 0.5rem;
+  position: absolute;
+  cursor: pointer;
+}
+
+.section-divider-btn:focus { outline: none; }
+
+.section-divider-img {
+  display: block;
+  height: 5rem;
+  width: auto;
+  pointer-events: none; /* let the button receive clicks */
+  transition: filter 0.15s ease, opacity 0.15s ease;
+}
+
+/* Reserved class used to push the divider image down when active. */
+.pushed {
+  margin-top: 5rem;
+}
+
+/* Playing-card style rank above the icon (no bubble) */
+.icon-badge {
+  position: absolute;
+  left: 20%;
+  background: transparent;
+  color: #3f0706; /* dark theme color */
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 4.4rem; /* larger, card-like rank */
+  line-height: 1;
+  padding: 0; /* no bubble padding */
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: 0%;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.06); /* subtle emboss */
+}
+
+/* Reduce icon sizes on smaller viewports so they don't dominate the layout */
+@media (max-width: 900px) {
+  .section-icon {
+    height: 3.4rem; /* ~32px */
+  }
+}
+
+@media (max-width: 480px) {
+  .section-icon {
+    height: 3.4rem; /* ~24px */
+  }
+}
+
+@media (max-width: 900px) {
+  .section-divider-img { height: 3.2rem; }
+  .icon-badge { font-size: 2.0rem; bottom: calc(100% - 22px); }
+}
+
+@media (max-width: 480px) {
+  .section-divider-img { height: 2.4rem; }
+  /* Mobile: make the badge larger and move it further above the divider (avoid HR overlap) */
+  .section-divider-btn { z-index: 8; overflow: visible; }
+  .icon-badge {
+    font-size: 2.0rem;
+    bottom: calc(100% - 22px);
+    margin-top: 0; /* override desktop negative offset */
+    left: 16%;
+    z-index: 10; /* sit above the hr */
+    line-height: 1;
+  }
+  /* Reduce how far the image is pushed down on mobile when active */
+  .pushed { margin-top: 1.2rem !important; }
+}
+
+/* Bottom-right corner playing-card icons (upside-down) */
+.section-corner-icon {
+  /* Position corner icons inside their section (use flow-relative positioning).
+     Using `position: relative` preserves document flow while allowing
+     the element to be visually transformed (rotated) without being
+     overridden when layout changes. */
+  position: relative;
+  height: 5rem;
+  width: auto;
+  display: inline-block;
+  transform: rotate(180deg) !important; /* upside-down to mimic card corners */
+  transform-origin: center center;
+  -webkit-transform: rotate(180deg) !important;
+  backface-visibility: hidden;
+  will-change: transform;
+  pointer-events: none;
+  margin-left: 96%;
+  opacity: 1;
+  z-index: 4;
+}
+
+.corner-icon-badge {
+  position: relative;
+  display: inline-block;
+  left: 27%;
+  background: transparent;
+  color: #3f0706; /* dark theme color */
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 4.4rem; /* larger, card-like rank */
+  line-height: 1;
+  padding: 0; /* no bubble padding */
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: 0%;
+  margin-left: 69.7%;;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.06); /* subtle emboss */
+  transform: rotate(180deg) !important;
+  transform-origin: center center;
+  -webkit-transform: rotate(180deg) !important;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+@media (max-width: 900px) {
+  .corner-icon-badge {
+    position: relative;
+    display: inline-block;
+    left: 28%;
+    background: transparent;
+    color: #3f0706; /* dark theme color */
+    font-weight: 800;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.0rem; /* larger, card-like rank */
+    line-height: 1;
+    padding: 0; /* no bubble padding */
+    border-radius: 0;
+    box-shadow: none;
+    margin-top: -0.5rem;
+    margin-left: 66.7%;;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.06); /* subtle emboss */
+    transform: rotate(180deg) !important;
+    transform-origin: center center;
+    -webkit-transform: rotate(180deg) !important;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+}
+
+.pushed-corner {
+  margin-top: 5rem;
+}
+
+.home-pushed-up {
+  margin-top: -7.5rem;
+}
+
+@media(max-width:900px) {
+  .home-pushed-up {
+    margin-top: -2.2rem;
+  }
+
+  .home-pushed-up-down {
+    margin-top: -2rem !important;
+  }
+}
+
+.home-pushed-up-down {
+  margin-top: -8rem;
+}
+
+@media (max-width: 900px) {
+  .section-corner-icon { height: 3rem; right: 12px; bottom: 10px; }
+}
+
+@media (max-width: 480px) {
+  .section-corner-icon { height: 2.2rem; right: 12px; bottom: 8px; }
+}
+
 .homepage-section h2 {
   font-size: 3.5rem;
   margin-bottom: 1rem;
@@ -47,11 +240,8 @@ body {
 
 .hidden-section {
   width: 100%;
-  border-bottom: 1px solid #e0c9a6;
-
   text-align: center;
   padding: 3rem 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 /* ---------- Welcome Section ---------- */
@@ -72,64 +262,145 @@ body {
   margin: 1rem;
 }
 
+/* Ensure welcome images keep aspect ratio and don't stretch */
+.welcome-section img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive adjustments for tablet and mobile: keep images aligned in a row */
+@media (max-width: 900px) {
+  .homepage-section {
+    margin-top: 80px;
+    margin-bottom: 60px;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .welcome-section {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    overflow-x: visible;
+  }
+
+  .side-img {
+    width: 45%;
+    max-width: 45%;
+    margin: 0;
+  }
+
+  .center-img {
+    width: 80%;
+    max-width: 520px;
+    margin: 0 0 0.5rem 0;
+    order: 1;
+  }
+
+  .left-img {
+    order: 2;
+  }
+
+  .right-img {
+    order: 3;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: 60px;
+  }
+
+  .homepage-section {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    padding: 0 0.5rem;
+  }
+
+  .homepage-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .welcome-section {
+    gap: 0.6rem;
+  }
+
+  .side-img {
+    width: 48%;
+    max-width: 48%;
+  }
+
+  .center-img {
+    width: 92%;
+    max-width: 520px;
+  }
+}
+
 /* ---------- Timeline Section ---------- */
 .timeline-events {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-  margin-left: 80px;
-  margin-top: 3rem;
+  margin: 3rem auto 0 auto;
+  max-width: 1000px;
 }
 
 .timeline-event {
   display: flex;
   align-items: stretch; /* Make image and details equal height */
-  /* background: #fffbe8; */
-  /* border-radius: 12px; */
-  /* box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
   padding: 0;
-  max-width: 600px;
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
-  overflow: hidden; /* Ensures rounded corners for both image and content */
+  overflow: visible;
 }
 
 .timeline-event-img {
-  width: 40%;              /* Image takes up the entire left side */
+  width: 28%;              /* Image takes up the left side on desktop */
+  max-width: 220px;
   height: auto;
-  display: flex;
-  align-items: stretch;
+  display: block;
+  flex-shrink: 0;
   /* No margin here, so image stays flush with the left */
 }
 
 .timeline-event-img img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;        /* Ensures image fills the area */
+  height: auto;
+  object-fit: cover;        /* Crop on wider screens but preserve aspect */
   display: block;
 }
 
 .timeline-event-details {
   flex: 1;
-  padding: 2rem 2.5rem;    /* Adjust horizontal padding for more space from image */
-  margin-left: 2rem;       /* Controls space between image and text */
+  padding: 1.5rem 2rem;    /* Adjust horizontal padding for more space from image */
+  margin-left: 1.25rem;       /* Controls space between image and text */
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  /* You can adjust padding and margin here without affecting the image */
+  gap: 0.5rem;
+  background: transparent;
+  color: #222;
 }
 
 .timeline-event .event-title {
-  font-size: 2rem;
+  font-size: 2.8rem;
   margin: 0 0 0.5rem 0;
   font-family: 'BlackChanceryFont', 'Playfair Display', 'Georgia', serif;
 }
 
 .timeline-event .event-time {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
@@ -138,3 +409,124 @@ body {
   line-height: 1.5;
   color: #333;
 }
+
+/* Mobile: stack timeline image above text and center content */
+@media (max-width: 900px) {
+  .timeline-events {
+    margin: 1.5rem auto 0 auto;
+    gap: 1rem;
+  }
+  .timeline-event {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem 0.75rem;
+  }
+  .timeline-event-img {
+    width: 72%;
+    max-width: 240px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .timeline-event-img img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  .timeline-event-details {
+    margin-left: 0;
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+  .timeline-event .event-title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-event-img {
+    width: 88%;
+    max-width: 240px;
+  }
+  .timeline-event .event-title {
+    font-size: 1.4rem;
+  }
+  .timeline-event .event-time {
+    font-size: 1rem;
+  }
+}
+
+/* PIN panel styling for hidden-section */
+.pin-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.pin-slots {
+  display: flex;
+  gap: 0.6rem;
+}
+.pin-slot {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid #3f0706;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.pin-controls { display:flex; gap:0.6rem; }
+.pin-btn {
+  background: #3f0706;
+  color: #fff;
+  border: 0;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.pin-btn[disabled] { opacity: 0.45; cursor: default; }
+.pin-message { color: #3f0706; font-weight:700; }
+  .secret-phrase {
+    margin-top: 0.6rem;
+    font-size: 1.1rem;
+    color: #0a5a2b;
+    font-weight: 700;
+    white-space: pre-line; /* preserve line breaks from the string */
+  }
+.pin-hint { color:#666; font-size:0.9rem; }
+
+/* Numpad styles */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 3.6rem);
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.numpad-btn {
+  width: 3.6rem;
+  height: 3.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid #3f0706;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.numpad-btn.submit {
+  background: #3f0706;
+  color: #fff;
+  border: 0;
+}
+.numpad-btn.backspace { font-size: 1.1rem; }
+.numpad-btn:active { transform: translateY(1px); }
