@@ -1,0 +1,61 @@
+.section-header h2 { text-align: center; }
+.info-blurb { color: #444; font-family: 'Playfair Display', Georgia, serif; }
+
+/* Make the scroll image full-bleed (window-width) while remaining centered */
+.scroll-bleed {
+	width: 100vw;
+	max-width: 100vw;
+	height: auto;
+	display: block;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	cursor: pointer;
+}
+
+@media (max-width: 480px) {
+	.scroll-bleed {
+		/* ensure small devices also fill width */
+		width: 100vw;
+		margin-left: calc(50% - 50vw);
+		margin-right: calc(50% - 50vw);
+	}
+}
+
+/* Input and button for secret code */
+.shenanigans-input {
+	padding: 0.6rem 0.8rem;
+	font-size: 1rem;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	min-width: 220px;
+}
+.shenanigans-btn {
+	display: none;
+}
+
+/* Big red 'Nope!' overlay */
+.nope {
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+	z-index: 2000;
+	background: rgba(255,255,255,0.9);
+	color: #b00000;
+	font-weight: 800;
+	font-size: 4rem;
+	padding: 0.4rem 1rem;
+	border-radius: 8px;
+	box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: nope-pop 1.2s ease-in-out;
+}
+
+@keyframes nope-pop {
+	0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+	20% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+	60% { transform: translate(-50%, -50%) scale(0.98); }
+	100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}

@@ -86,14 +86,14 @@
       <img src="assets/images/colonyclub.png" alt="Venue" class="info-img" />
       <div class="info-content">
         <h3 class="info-title">Venue</h3>
-        <p class="info-blurb">The Colony Club, 2310 Park Ave, Detroit, MI. Our ceremony and reception will both be held at this beautiful historic venue in downtown Detroit.</p>
+        <p class="info-blurb">The Colony Club, <a href="https://www.google.com/maps/search/?api=1&query=The+Colony+Club+2310+Park+Ave+Detroit+MI" target="_blank" rel="noopener">2310 Park Ave, Detroit, MI</a>. Our ceremony and reception will both be held at this beautiful historic venue in downtown Detroit.</p>
       </div>
     </div>
     <div class="info-subsection">
       <img src="assets/images/hotels.png" alt="Hotels" class="info-img" />
       <div class="info-content">
         <h3 class="info-title">Hotels</h3>
-        <p class="info-blurb">There are several Hotels nearby, as well as AirBnB/VRBOs that can accommodate large parties in and around Detroit.</p>
+        <p class="info-blurb">We recommend staying at a hotel in Detroit, espcerially if you plan on coming to the After Party. We plan on staying at MGM Grand, but there are plenty of hotels nearby. There are also some AirBnB/VRBOs that can accommodate large parties around Detroit.</p>
       </div>
     </div>
     <div class="info-subsection">
@@ -114,7 +114,8 @@
       <img src="assets/images/parking.png" alt="Parking" class="info-img" />
       <div class="info-content">
         <h3 class="info-title">Parking</h3>
-        <p class="info-blurb">Parking is available at The Colony Club. Guests are also welcome to park overnight at The Colony Club.</p>
+        <p class="info-blurb">Parking is available near The Colony Club. Please use this QR code to get free parking at the <a href="https://www.google.com/maps/search/?api=1&query=Comerica+Garage+50+W+Wontcalm+St+Detroit+MI" target="_blank" rel="noopener">Comerica Garage (50 W. Wontcalm St, Detroit)</a>. Guests are also welcome to park overnight.</p>
+        <img src="assets/images/parking_qr.jpg" alt="Parking QR Code" class="parking-qr" />
       </div>
     </div>
     <div class="info-subsection">
@@ -128,17 +129,22 @@
       <img src="assets/images/whattodo.png" alt="Detroit" class="info-img" />
       <div class="info-content">
         <h3 class="info-title">What to do in Detroit</h3>
-        <p class="info-blurb">Explore the vibrant city of Detroit, known for its rich history and culture.
-          The detroit river walk is really nice and just got expanded
-          DIA
-          Dequindre Cut is a really cool urban bike / walking trail
-          Eastern Market!
-          The two coneys
-          Downtown RO and Ferndale have a lot of cool restaurants and bars
-        </p>
+            On Sunday, May 24th, we plan to go to the Henry Ford Museum and Greenfield Village. If you’re interested in joining us, please <a href="https://partiful.com/e/IAPTCuZcjadbHU0VbSQa?source=share" target="_blank" rel="noopener">RSVP on Partiful!</a>
+              <h4 class="info-blurb">Other things to do while you're in town:</h4>
+          <ul class="info-blurb-list">
+            <li>The Detroit Riverwalk is really nice and was recently expanded.</li>
+            <li>DIA (Detroit Institute of Arts).</li>
+            <li>Dequindre Cut — a great urban bike/walking trail.</li>
+            <li>Eastern Market.</li>
+            <li>Try the two Coneys (American Coney Island &amp; Lafayette).</li>
+            <li>Downtown, Royal Oak, and Ferndale have many great restaurants and bars.</li>
+          </ul>
       </div>
     </div>
   </section>
+
+
+  
 
   <img src="assets/images/clubs.png" alt="Information corner icon" class="section-corner-icon section-corner--info" [class.pushed-corner]="iconBadges.info !== null"/>
   <span *ngIf="iconBadges.info !== null" class="corner-icon-badge">{{ iconBadges.info }}</span>
@@ -170,7 +176,9 @@
     </div>
 
     <div class="timeline-subsection">
-      <img src="assets/images/timeline_3.png" alt="Cocktail Hour" class="timeline-img" />
+      <a href="/shenanigans" aria-label="Shenanigans page">
+        <img src="assets/images/timeline_3.png" alt="Cocktail Hour" class="timeline-img" />
+      </a>
       <div class="timeline-content">
         <h3 class="timeline-title">5:00 pm - Cocktail Hour</h3>
         <p class="timeline-blurb">Enjoy drinks and appetizers at The Bar Charles while mingling with friends and family.</p>
@@ -197,7 +205,7 @@
       <img src="assets/images/timeline_6.png" alt="Departure + Afterparty" class="timeline-img" />
       <div class="timeline-content">
         <h3 class="timeline-title">10:30 pm - Departure + Afterparty</h3>
-        <p class="timeline-blurb">Send-off for the newlyweds! For those who wish to continue celebrating, join us at The MGM Grand Casino!</p>
+            <p class="timeline-blurb">Send-off for the newlyweds! For those who wish to continue celebrating, join us at The MGM Grand Casino! For those who wish to see us on the Sunday after, join us at the Henry Ford Museum and Greenfield Village. (<a href="https://partiful.com/e/IAPTCuZcjadbHU0VbSQa?source=share" target="_blank" rel="noopener">RSVP on Partiful</a>)</p>
       </div>
     </div>
   </div>
@@ -215,14 +223,14 @@
     <div class="section-header">
       <h2>Photo Album</h2>
     </div>
-    <div class="album-preview" style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
-      <div class="thumbs" style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;max-width:640px;">
-        <img src="assets/images/album1.jpg" alt="Album photo 1" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
-        <img src="assets/images/album2.jpg" alt="Album photo 2" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
-        <img src="assets/images/album3.jpg" alt="Album photo 3" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
-        <img src="assets/images/album4.jpg" alt="Album photo 4" style="width:140px;height:100px;object-fit:cover;border-radius:8px;" />
+      <div class="album-preview">
+      <div class="album-grid thumbs">
+        <img class="album-thumb large" src="assets/images/image1.jpg" alt="Album photo 1" />
+        <img class="album-thumb" src="assets/images/image4.jpg" alt="Album photo 4" />
+        <img class="album-thumb" src="assets/images/image5.jpg" alt="Album photo 5" />
+        <img class="album-thumb" src="assets/images/image6.jpg" alt="Album photo 6" />
+        <img class="album-thumb" src="assets/images/image7.jpg" alt="Album photo 7" />
       </div>
-      <p style="max-width:720px;text-align:center;color:#444;margin:0;">Click the button below to view the full photo album.</p>
       <a href="https://photos.app.goo.gl/zEpBaw9xRs3wh4us9" target="_blank" rel="noopener" class="album-btn" style="display:inline-block;margin-top:0.6rem;padding:0.6rem 1rem;border-radius:8px;background:#3f0706;color:#fff;text-decoration:none;font-weight:600;">View Full Album</a>
     </div>
   </section>
