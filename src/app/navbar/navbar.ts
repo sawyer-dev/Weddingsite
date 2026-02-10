@@ -31,6 +31,18 @@ export class Navbar implements OnInit, OnDestroy {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
+  // When the header icon (mobile) is clicked, emit a window event so parent pages can react.
+  onHeaderIconClick() {
+    // Only trigger on small screens (mobile). Threshold approximates mobile widths.
+    try {
+      if (window && window.innerWidth <= 768) {
+        window.dispatchEvent(new CustomEvent('headerIconClicked'));
+      }
+    } catch (e) {
+      // silent fail in non-browser contexts
+    }
+  }
+
   scrollToSection(event: Event, sectionId: string) {
     event.preventDefault();
     const el = document.getElementById(sectionId);

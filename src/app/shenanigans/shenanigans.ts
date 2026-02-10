@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
@@ -9,7 +9,7 @@ import { Navbar } from '../navbar/navbar';
   templateUrl: './shenanigans.html',
   styleUrl: './shenanigans.css'
 })
-export class Shenanigans implements OnInit {
+export class Shenanigans implements OnInit, AfterViewInit {
   constructor(private router: Router) {}
   @ViewChild('scrollAnim', { static: true }) scrollAnimRef!: ElementRef<HTMLImageElement>;
 
@@ -22,12 +22,10 @@ export class Shenanigans implements OnInit {
   // Default GIF play duration; adjust if needed
   gifDuration = 1500;
 
+  isMobile = false;
   private playing = false;
   private timer: any = null;
-  // touch/long-press support
-  private touchTimer: any = null;
-  private longPressed = false;
-  private touchThreshold = 350; // ms required for a long-press
+  // touch/long-press support removed — hover retained for desktop, autoplay on mobile
 
   ngOnInit() {
     // Preload assets
@@ -42,6 +40,24 @@ export class Shenanigans implements OnInit {
     }
   }
 
+
+  ngAfterViewInit() {
+    // Use touch capability or viewport width to detect mobile-like environments.
+    try {
+      const hasTouch = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator && (navigator.maxTouchPoints || 0) > 0));
+      const narrow = typeof window !== 'undefined' && window.innerWidth <= 768;
+      this.isMobile = !!hasTouch || !!narrow;
+      if (this.isMobile) {
+        // autoplay once and leave at end frame
+        // ensure element exists
+        if (this.scrollAnimRef && this.scrollAnimRef.nativeElement) {
+          this.playForward();
+        }
+      }
+    } catch (e) {
+      this.isMobile = false;
+    }
+  }
   playForward() {
     if (this.playing) return;
     const imgEl = this.scrollAnimRef.nativeElement;
@@ -56,10 +72,11 @@ export class Shenanigans implements OnInit {
 
   // playReverse(force=true) will interrupt a running forward animation
   playReverse(force = false) {
+    // On mobile we want the animation to remain at the end frame — do not play reverse
+    if (this.isMobile) return;
     const imgEl = this.scrollAnimRef.nativeElement;
     if (this.playing && !force) return;
     if (this.playing && force) {
-      // stop ongoing forward playback and immediately play reverse
       this.clearTimer();
     }
     this.playing = true;
@@ -71,27 +88,7 @@ export class Shenanigans implements OnInit {
     }, this.gifDuration);
   }
 
-  // Touch handlers for long-press
-  onTouchStart(ev: TouchEvent) {
-    // Start a timer; only trigger forward play if press lasts long enough
-    if (this.touchTimer) clearTimeout(this.touchTimer);
-    this.longPressed = false;
-    // don't block scrolling unless they long-press
-    this.touchTimer = setTimeout(() => {
-      this.longPressed = true;
-      this.playForward();
-    }, this.touchThreshold);
-  }
-
-  onTouchEnd(ev: TouchEvent) {
-    // Cancel pending long-press if it didn't reach threshold
-    if (this.touchTimer) { clearTimeout(this.touchTimer); this.touchTimer = null; }
-    if (this.longPressed) {
-      // If long-press was active, play reverse on release (force interrupt)
-      this.longPressed = false;
-      this.playReverse(true);
-    }
-  }
+  // long-press handlers removed; hover remains for desktop and autoplay remains for mobile
 
   private clearTimer() {
     if (this.timer) {

@@ -19,7 +19,7 @@
 
     <!-- Mobile centered title (mobile-only) -->
     <div class="mobile-title">
-      <img src="assets/images/Dragons_mobile.png" alt="Dragons" class="mobile-dragons">
+      <img src="assets/images/Dragons_mobile.png" alt="Dragons" class="mobile-dragons" role="button" tabindex="0" (click)="onHeaderIconClick()" (keyup.enter)="onHeaderIconClick()">
     </div>
 
     <!-- Mobile menu (visibility controlled by CSS + .active class bound to component state) -->

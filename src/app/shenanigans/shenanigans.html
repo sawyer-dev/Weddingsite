@@ -6,8 +6,7 @@
   <section class="homepage-section">
     <div style="max-width:800px;margin:0 auto;padding:1rem;text-align:center;">
       <img #scrollAnim id="scroll-anim" class="scroll-bleed" [src]="startFrame" alt="Scroll animation"
-        (mouseenter)="playForward()" (mouseleave)="playReverse(true)"
-        (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)" (touchcancel)="onTouchEnd($event)" />
+        (mouseenter)="playForward()" (mouseleave)="playReverse(true)" />
       <div style="margin-top:1rem;display:flex;justify-content:center;gap:0.5rem;align-items:center;flex-wrap:wrap;">
         <input #codeInput type="text" class="shenanigans-input" placeholder="What's this?" aria-label="What's this?"
           (keydown.enter)="onSubmit(codeInput.value); $event.preventDefault();" />

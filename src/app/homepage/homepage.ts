@@ -85,6 +85,14 @@ export class Homepage {
     }
   }
 
+  // Listen for mobile header icon clicks dispatched from the navbar
+  @HostListener('window:headerIconClicked', ['$event'])
+  onHeaderIconClicked(event: Event) {
+    this.showHiddenSection = true;
+    // show the fixed badge for the hidden section when opened via header
+    // this.iconBadges.hidden = this.fixedBadgeNumbers.hidden;
+  }
+
   // Called when a section divider icon is clicked: show the fixed badge number
   iconClick(section: 'home' | 'hidden' | 'rsvp' | 'info' | 'timeline' | 'photo') {
     const val = this.fixedBadgeNumbers[section];

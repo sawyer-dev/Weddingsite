@@ -236,7 +236,7 @@
     font-weight: 700;
     color: #ffffff;
     z-index: 10015;
-    pointer-events: none;
+    pointer-events: auto;
     text-align: center;
     white-space: nowrap;
     letter-spacing: 0.2px;
@@ -248,7 +248,7 @@
     width: auto;
     display: block;
     margin: 0 auto;
-    pointer-events: none;
+    pointer-events: auto;
   }
 
   /* hide the title on larger screens */
