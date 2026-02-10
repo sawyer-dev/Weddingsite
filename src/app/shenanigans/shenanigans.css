@@ -1,3 +1,13 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #fffbe8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
 .section-header h2 { text-align: center; }
 .info-blurb { color: #444; font-family: 'Playfair Display', Georgia, serif; }
 
