@@ -1,0 +1,16 @@
+<div class="quest-container">
+
+  <button (click)="getQuest()">
+    Receive Quest
+  </button>
+
+  <div *ngIf="loading">
+    Assigning quest...
+  </div>
+
+  <div *ngIf="quest">
+    <h2>Your Quest</h2>
+    <p>{{ quest }}</p>
+  </div>
+
+</div>
