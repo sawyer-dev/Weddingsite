@@ -16,13 +16,13 @@
         class="lb-tab"
         [class.lb-tab-active]="activeTab === 'adventurers'"
         (click)="activeTab = 'adventurers'">
-        &#x2694; Adventurers
+        <img src="assets/images/adventurer-icon.png" alt="" class="lb-tab-icon"> Adventurers
       </button>
       <button
         class="lb-tab"
         [class.lb-tab-active]="activeTab === 'guilds'"
         (click)="activeTab = 'guilds'">
-        &#x269C; Guilds
+        <img src="assets/images/guild-icon-dark.png" alt="" class="lb-tab-icon"> Guilds
       </button>
     </div>
 
@@ -46,7 +46,7 @@
         <div class="lb-row-info">
           <span class="lb-row-name">{{ adv.name }}</span>
           <span class="lb-row-title">{{ adv.title }}</span>
-          <span *ngIf="adv.guild" class="lb-row-guild">&#x269C; {{ adv.guild }}</span>
+          <span *ngIf="adv.guild" class="lb-row-guild"><img src="assets/images/guild-icon-dark.png" alt="" class="lb-inline-guild-icon"> {{ adv.guild }}</span>
         </div>
         <div class="lb-row-stats">
           <span class="lb-stat-chip lb-stat-level">Level {{ adv.level }}</span>
@@ -67,7 +67,7 @@
         <button class="lb-guild-header" (click)="toggleGuild(guild)">
           <span class="lb-rank">{{ i + 1 }}</span>
           <div class="lb-row-info">
-              <span class="lb-row-name lb-guild-name">&#x269C; {{ guild.name }} &#x269C;</span>
+              <span class="lb-row-name lb-guild-name"><img src="assets/images/guild-icon-dark.png" alt="" class="lb-inline-guild-icon"> {{ guild.name }} <img src="assets/images/guild-icon-dark.png" alt="" class="lb-inline-guild-icon"></span>
             <div class="lb-row-stats lb-row-stats-inline">
               <span class="lb-stat-chip">{{ guild.totalXp }} XP</span>
               <span class="lb-stat-chip" *ngIf="guild.totalQuests > 0">{{ guild.totalQuests }} &#x2694;</span>

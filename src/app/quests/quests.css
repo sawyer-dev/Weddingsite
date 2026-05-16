@@ -114,8 +114,7 @@
 }
 
 .adventurer-guild .guild-symbol {
-  font-size: 1.3rem;
-  font-style: normal;
+  height: 1.1rem;
   vertical-align: middle;
   position: relative;
   top: -0.1em;
@@ -143,6 +142,7 @@
   width: 100%;
   min-height: 52px;
   padding: 0.75rem 1rem;
+  padding-left: 0.5rem;
   border-radius: 10px;
   border: none;
   font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
@@ -200,6 +200,19 @@
 .btn-icon {
   font-size: 1.2rem;
   line-height: 1;
+}
+
+.quest-btn-icon {
+  height: 1.4rem;
+  vertical-align: middle;
+  filter: brightness(0) invert(1);
+}
+
+.reward-sword-icon {
+  height: 0.85rem;
+  vertical-align: middle;
+  filter: brightness(0) invert(1);
+  margin-right: 0.2rem;
 }
 
 /* ─── Adventurer init loading ─── */

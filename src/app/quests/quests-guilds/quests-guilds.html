@@ -31,7 +31,7 @@
           [class.guild-active]="guild === currentGuild"
           [disabled]="joining"
           (click)="joinGuild(guild)">
-          <span class="guild-icon">⚜</span>
+          <img [src]="guild === currentGuild ? 'assets/images/guild-icon.png' : 'assets/images/guild-icon-dark.png'" alt="" class="guild-icon">
           <span class="guild-name">{{ guild }}</span>
           <span *ngIf="guild === currentGuild" class="guild-badge">Joined</span>
         </button>
@@ -75,7 +75,7 @@
 <!-- Join Success Dialog -->
 <div *ngIf="joinSuccessVisible" class="guilds-dialog-backdrop" (click)="dismissJoinSuccess()">
   <div class="guilds-dialog-card" (click)="$event.stopPropagation()">
-    <p class="guilds-success-icon">⚜</p>
+    <img src="assets/images/guild-icon-dark.png" alt="" class="guilds-success-icon">
     <h3 class="guilds-dialog-title">Guild Joined!</h3>
     <p class="guilds-dialog-message">You are now a member of</p>
     <p class="guilds-success-name">{{ joinSuccessGuild }}</p>

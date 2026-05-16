@@ -30,7 +30,7 @@
       <p class="xp-label">
         {{ adventurerXp }} XP<span *ngIf="xpToNext !== null"> / {{ xpToNext }} XP</span>
       </p>
-      <p *ngIf="adventurerGuild" class="adventurer-guild"><span class="guild-symbol">⚜</span> {{ adventurerGuild }} <span class="guild-symbol">⚜</span></p>
+      <p *ngIf="adventurerGuild" class="adventurer-guild"><img src="assets/images/guild-icon-dark.png" alt="" class="guild-symbol"> {{ adventurerGuild }} <img src="assets/images/guild-icon-dark.png" alt="" class="guild-symbol"></p>
     </div>
 
     <!-- Loading -->
@@ -60,7 +60,7 @@
               <img src="assets/images/photo-camera.png" alt="" class="proof-camera-icon"> Present Thy Proof
             </ng-container>
           </a>
-          <div *ngIf="questXp" class="quest-reward-badge">⚔ {{ questXp }} XP</div>
+          <div *ngIf="questXp" class="quest-reward-badge"><img src="assets/images/quest-icon.png" alt="" class="reward-sword-icon"> {{ questXp }} XP</div>
         </div>
         <p *ngIf="!proofLinkClicked" class="quest-proof-hint">Upload proof before completing your quest.</p>
       </div>
@@ -69,7 +69,7 @@
     <!-- Action Buttons -->
     <div *ngIf="!loading" class="quest-actions">
       <button *ngIf="!quest" class="quest-btn quest-btn-primary" (click)="getQuest()" [disabled]="loading">
-        <span class="btn-icon">⚔</span> Receive Quest
+        <img src="assets/images/quest-icon.png" alt="" class="quest-btn-icon"> Receive Quest
       </button>
       <div *ngIf="quest" class="quest-actions-row">
         <button class="quest-btn quest-btn-success" (click)="completeQuest()" [disabled]="loading || !proofLinkClicked">
