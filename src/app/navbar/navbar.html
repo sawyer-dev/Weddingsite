@@ -8,6 +8,7 @@
       <a href="#info" class="nav-link" (click)="scrollToSection($event, 'info')">Information</a>
       <a href="#timeline" class="nav-link" (click)="scrollToSection($event, 'timeline')">Timeline</a>
       <a href="#photo-album" class="nav-link" (click)="scrollToSection($event, 'photo-album')">Photo Album</a>
+      <a routerLink="/quests" class="nav-link">Quests</a>
     </div>
 
     <!-- Mobile hamburger button (mobile-only via CSS) -->
@@ -29,6 +30,7 @@
       <a href="#info" class="mobile-nav-link" (click)="scrollToSection($event, 'info'); toggleMobileMenu()">Information</a>
       <a href="#timeline" class="mobile-nav-link" (click)="scrollToSection($event, 'timeline'); toggleMobileMenu()">Timeline</a>
       <a href="#photo-album" class="mobile-nav-link" (click)="scrollToSection($event, 'photo-album'); toggleMobileMenu()">Photo Album</a>
+      <a routerLink="/quests" class="mobile-nav-link" (click)="toggleMobileMenu()">Quests</a>
     </div>
   </div>
 </nav>

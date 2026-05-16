@@ -1,16 +1,143 @@
-<div class="quest-container">
+<app-quest-navbar
+  (guildClicked)="showGuildsPanel = true"
+  (leaderboardClicked)="showLeaderboardPanel = true">
+</app-quest-navbar>
 
-  <button (click)="getQuest()">
-    Receive Quest
-  </button>
+<div class="quests-page">
+<div class="quests-page-inner">
 
-  <div *ngIf="loading">
-    Assigning quest...
+  <div *ngIf="adventurerName; else namePrompt">
+
+    <!-- Adventurer init loading -->
+    <div *ngIf="adventurerLoading" class="adventurer-init-loading">
+      <div class="quest-spinner"></div>
+      <span class="quest-loading-text">Summoning your adventurer...</span>
+    </div>
+
+    <ng-container *ngIf="!adventurerLoading">
+
+    <!-- Adventurer Card -->
+    <div class="adventurer-card" [ngClass]="adventurerTier">
+      <h2 class="adventurer-name">{{ adventurerName }}</h2>
+      <p class="adventurer-title-label">{{ adventurerTitle }}</p>
+      <div class="adventurer-stats-row">
+        <span class="stat-chip">Level {{ adventurerLevel }}</span>
+        <span class="stat-chip" *ngIf="adventurerQuestsCompleted > 0">{{ adventurerQuestsCompleted }} {{ adventurerQuestsCompleted === 1 ? 'Quest' : 'Quests' }} Completed</span>
+      </div>
+      <div class="xp-bar-track">
+        <div class="xp-bar-fill" [style.width.%]="xpPercent"></div>
+      </div>
+      <p class="xp-label">
+        {{ adventurerXp }} XP<span *ngIf="xpToNext !== null"> / {{ xpToNext }} XP</span>
+      </p>
+      <p *ngIf="adventurerGuild" class="adventurer-guild"><span class="guild-symbol">⚜</span> {{ adventurerGuild }} <span class="guild-symbol">⚜</span></p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="quest-loading">
+      <div class="quest-spinner"></div>
+      <span class="quest-loading-text">{{ loadingText }}</span>
+    </div>
+
+    <!-- Current Quest -->
+    <div *ngIf="quest && !loading" class="quest-scroll" [attr.data-rarity]="questRarity?.toLowerCase()">
+      <div class="quest-scroll-header" [attr.data-rarity]="questRarity?.toLowerCase()">
+        <span class="scroll-label">Current Quest</span>
+        <span *ngIf="questRarity" class="rarity-badge">{{ questRarity }}</span>
+      </div>
+      <p class="quest-scroll-text">{{ quest }}</p>
+      <div class="quest-proof-section">
+        <div class="quest-proof-row">
+          <a
+            href="https://photos.app.goo.gl/gJGs6GftuVjCPfap8"
+            target="_blank"
+            rel="noopener"
+            class="quest-proof-link"
+            [class.proof-clicked]="proofLinkClicked"
+            (click)="onProofLinkClick()">
+            <ng-container *ngIf="proofLinkClicked">✓ Proof Recorded</ng-container>
+            <ng-container *ngIf="!proofLinkClicked">
+              <img src="assets/images/photo-camera.png" alt="" class="proof-camera-icon"> Present Thy Proof
+            </ng-container>
+          </a>
+          <div *ngIf="questXp" class="quest-reward-badge">⚔ {{ questXp }} XP</div>
+        </div>
+        <p *ngIf="!proofLinkClicked" class="quest-proof-hint">Upload proof before completing your quest.</p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div *ngIf="!loading" class="quest-actions">
+      <button *ngIf="!quest" class="quest-btn quest-btn-primary" (click)="getQuest()" [disabled]="loading">
+        <span class="btn-icon">⚔</span> Receive Quest
+      </button>
+      <div *ngIf="quest" class="quest-actions-row">
+        <button class="quest-btn quest-btn-success" (click)="completeQuest()" [disabled]="loading || !proofLinkClicked">
+          <span class="btn-icon">✓</span> Complete Quest
+        </button>
+        <button class="quest-btn quest-btn-danger" (click)="abandonQuest()" [disabled]="loading">
+          <span class="btn-icon">✕</span> Abandon Quest
+        </button>
+      </div>
+    </div>
+
+    </ng-container>
   </div>
 
-  <div *ngIf="quest">
-    <h2>Your Quest</h2>
-    <p>{{ quest }}</p>
-  </div>
+  <ng-template #namePrompt>
+    <div class="name-prompt-card">
+      <p class="name-prompt-text">Enter thy Adventurer Name to begin thy quest.</p>
+      <button class="quest-btn quest-btn-primary" (click)="promptForName()">Enter Name</button>
+    </div>
+  </ng-template>
 
+</div><!-- /.quests-page-inner -->
+</div><!-- /.quests-page -->
+
+<!-- Custom Dialog -->
+<div *ngIf="dialogVisible" class="dialog-backdrop" (click)="dismissDialog()">
+  <div class="dialog-card" (click)="$event.stopPropagation()">
+    <h3 class="dialog-title">{{ dialogTitle }}</h3>
+    <p *ngIf="dialogHighlight" class="dialog-highlight">{{ dialogHighlight }}</p>
+    <p *ngIf="dialogMessage" class="dialog-message">{{ dialogMessage }}</p>
+    <input
+      *ngIf="dialogType === 'prompt'"
+      type="text"
+      class="dialog-input"
+      [value]="dialogInput"
+      (input)="dialogInput = $any($event.target).value"
+      (keydown.enter)="confirmDialog()"
+      [placeholder]="dialogInputPlaceholder"
+    />
+    <div class="dialog-actions">
+      <button
+        *ngIf="dialogType === 'prompt' || dialogType === 'confirm'"
+        class="quest-btn quest-btn-secondary dialog-btn"
+        (click)="dismissDialog()">
+        {{ dialogType === 'confirm' ? 'Cancel' : 'Turn back' }}
+      </button>
+      <button
+        class="quest-btn dialog-btn"
+        [class.quest-btn-primary]="dialogType !== 'confirm'"
+        [class.quest-btn-danger]="dialogType === 'confirm'"
+        (click)="confirmDialog()">
+        {{ dialogType === 'prompt' ? 'Adventure Forth!' : dialogType === 'confirm' ? 'Forsake It' : 'Onward!' }}
+      </button>
+    </div>
+  </div>
 </div>
+
+<!-- Guilds Panel -->
+<app-quests-guilds
+  *ngIf="showGuildsPanel"
+  [adventurerName]="adventurerName || ''"
+  [currentGuild]="adventurerGuild"
+  (guildUpdated)="onGuildUpdated($event)"
+  (closed)="showGuildsPanel = false">
+</app-quests-guilds>
+
+<!-- Leaderboard Panel -->
+<app-quests-leaderboard
+  *ngIf="showLeaderboardPanel"
+  (closed)="showLeaderboardPanel = false">
+</app-quests-leaderboard>

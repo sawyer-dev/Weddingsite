@@ -1,0 +1,397 @@
+/* ─── Overlay ─── */
+.guilds-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  background: #fffbe8;
+  display: flex;
+  flex-direction: column;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  animation: guilds-slide-in 0.22s ease;
+}
+
+.guilds-overlay.guilds-closing {
+  animation: guilds-slide-out 0.22s ease forwards;
+}
+
+@keyframes guilds-slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes guilds-slide-out {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+/* ─── Panel ─── */
+.guilds-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── Header ─── */
+.guilds-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #3f0706;
+  padding: 0 1rem;
+  height: 60px;
+  flex-shrink: 0;
+  gap: 0.6rem;
+}
+
+.guilds-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.guilds-back:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.guilds-back-arrow {
+  line-height: 1;
+}
+
+.guilds-header-spacer {
+  width: 40px;
+  flex-shrink: 0;
+}
+.guilds-title {
+  font-size: 1.6rem;
+  color: #fff;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+.guilds-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.guilds-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ─── Body ─── */
+.guilds-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.guilds-intro {
+  font-size: 1rem;
+  color: #7a3a0a;
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.guilds-empty {
+  font-size: 1rem;
+  color: #3f0706;
+  font-style: italic;
+  font-family: 'Playfair Display', Georgia, serif;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+/* ─── Guild list ─── */
+.guild-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.guild-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(155deg, #f9f0de, #fffbe8);
+  border: 2px solid #3f0706;
+  border-radius: 10px;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  color: #3f0706;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 0.15s ease, transform 0.1s ease, background 0.15s ease;
+  box-shadow: 0 2px 8px rgba(63, 7, 6, 0.08);
+}
+
+.guild-card:not(:disabled):hover {
+  filter: brightness(0.97);
+}
+
+.guild-card:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.guild-card:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.guild-card.guild-active {
+  background: #3f0706;
+  color: #fff;
+  border-color: #3f0706;
+}
+
+.guild-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  position: relative;
+  top: -0.1em;
+}
+
+.guild-name {
+  flex: 1;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.guild-badge {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+  font-family: 'Playfair Display', Georgia, serif;
+  white-space: nowrap;
+}
+
+.guild-card:not(.guild-active) .guild-badge {
+  background: rgba(63, 7, 6, 0.08);
+  border-color: rgba(63, 7, 6, 0.2);
+  color: #3f0706;
+}
+
+/* ─── Create button ─── */
+.guild-create-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px dashed #3f0706;
+  border-radius: 10px;
+  background: transparent;
+  color: #3f0706;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, filter 0.15s ease;
+  margin-top: 0.25rem;
+}
+
+.guild-create-btn:not(:disabled):hover {
+  background: rgba(63, 7, 6, 0.05);
+}
+
+.guild-create-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* ─── Joining overlay (inside body, over the list) ─── */
+.guilds-joining-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 2rem 1rem;
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 251, 232, 0.85);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  border-radius: 0 0 8px 8px;
+  z-index: 10;
+}
+
+/* ─── Success dialog elements ─── */
+.guilds-success-icon {
+  font-size: 2.5rem;
+  margin: 0 0 0.25rem;
+  line-height: 1;
+}
+
+.guilds-success-name {
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  color: #3f0706;
+  font-weight: 700;
+  margin: 0 0 1.2rem;
+  word-break: break-word;
+}
+
+/* ─── Loading ─── */
+.guilds-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 3rem 1rem;
+}
+
+.guild-spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(63, 7, 6, 0.15);
+  border-top-color: #3f0706;
+  border-radius: 50%;
+  animation: guild-spin 0.75s linear infinite;
+}
+
+@keyframes guild-spin {
+  to { transform: rotate(360deg); }
+}
+
+.guild-loading-text {
+  color: #7a3a0a;
+  font-size: 0.95rem;
+  font-style: italic;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ─── Create guild dialog ─── */
+.guilds-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: guilds-fade-in 0.18s ease;
+}
+
+@keyframes guilds-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.guilds-dialog-card {
+  background: #fffbe8;
+  border: 2px solid #3f0706;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem 1.4rem;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(63, 7, 6, 0.22);
+  text-align: center;
+  animation: guilds-dialog-up 0.2s ease;
+}
+
+@keyframes guilds-dialog-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.guilds-dialog-title {
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.6rem;
+  color: #3f0706;
+  margin: 0 0 0.5rem;
+  font-weight: normal;
+}
+
+.guilds-dialog-message {
+  font-size: 1rem;
+  color: #3f0706;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin: 0 0 1.1rem;
+}
+
+.guilds-dialog-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid #3f0706;
+  border-radius: 8px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  color: #2c1a00;
+  background: #f9f0de;
+  margin-bottom: 1.1rem;
+  outline: none;
+}
+
+.guilds-dialog-input:focus {
+  border-color: #8b1a1a;
+  box-shadow: 0 0 0 3px rgba(63, 7, 6, 0.12);
+}
+
+.guilds-dialog-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.guild-btn {
+  flex: 1;
+  min-height: 48px;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: none;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.guild-btn:not(:disabled):active { transform: translateY(1px); filter: brightness(0.92); }
+.guild-btn:not(:disabled):hover  { filter: brightness(1.08); }
+.guild-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+.guild-btn-primary {
+  background: #3f0706;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(63, 7, 6, 0.28);
+}
+
+.guild-btn-secondary {
+  background: transparent;
+  color: #3f0706;
+  border: 2px solid #3f0706;
+}
+
+@media (min-width: 481px) {
+  .guilds-header { height: 70px; }
+  .guilds-title  { font-size: 1.9rem; }
+}

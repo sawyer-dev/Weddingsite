@@ -1,0 +1,229 @@
+const ADVENTURER_SHEET_NAME = 'Sheet1';
+
+const ADVENTURER_COL = {
+  NAME: 1,
+  XP: 2,
+  LEVEL: 3,
+  TITLE: 4,
+  GUILD: 5,
+  CURRENT_QUEST_ID: 6,
+  CURRENT_QUEST: 7,
+  CURRENT_QUEST_XP: 8,
+  QUESTS_COMPLETED: 9,
+  COMPLETED_QUEST_IDS: 10,
+  CURRENT_QUEST_RARITY: 11
+};
+
+const LEVEL_TABLE = [
+  { level: 20, xp: 1235, title: 'Champion of Grace & Sawyer' },
+  { level: 19, xp: 1125, title: 'Mythic Partygoer' },
+  { level: 18, xp: 1020, title: 'Legend of the Reception' },
+  { level: 17, xp:  920, title: 'Wedding Hero' },
+  { level: 16, xp:  825, title: 'Elite Revelkeeper' },
+  { level: 15, xp:  735, title: 'Master of Ceremonies' },
+  { level: 14, xp:  650, title: 'Late Night Knight' },
+  { level: 13, xp:  570, title: 'Bard of the Ballroom' },
+  { level: 12, xp:  495, title: 'Celebration Specialist' },
+  { level: 11, xp:  425, title: 'Bouquet Hunter' },
+  { level: 10, xp:  360, title: 'Agent of Chaos' },
+  { level:  9, xp:  300, title: 'Reception Renegade' },
+  { level:  8, xp:  245, title: 'Social Spellcaster' },
+  { level:  7, xp:  195, title: 'Snack Seeker' },
+  { level:  6, xp:  150, title: 'Dance Floor Duelist' },
+  { level:  5, xp:  110, title: 'Cocktail Scout' },
+  { level:  4, xp:   75, title: 'Toast Initiate' },
+  { level:  3, xp:   45, title: 'Table Wanderer' },
+  { level:  2, xp:   20, title: 'Curious Guest' },
+  { level:  1, xp:    0, title: 'New Arrival' }
+];
+
+function getLevelAndTitle(xp) {
+  for (const entry of LEVEL_TABLE) {
+    if (xp >= entry.xp) return { level: entry.level, title: entry.title };
+  }
+  return { level: 1, title: 'New Arrival' };
+}
+
+function jsonRes(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Returns 0-based index in the full data array (including header at [0]).
+// Returns -1 if not found.
+function findAdventurerRow(data, name) {
+  const idx = data.slice(1).findIndex(row => row[0] === name);
+  return idx === -1 ? -1 : idx + 1;
+}
+
+function rowToAdventurer(row) {
+  return {
+    name: row[0],
+    xp: row[1],
+    level: row[2],
+    title: row[3],
+    guild: row[4],
+    currentQuestId: row[5],
+    currentQuest: row[6],
+    currentQuestXp: row[7],
+    questsCompleted: row[8],
+    completedQuestIds: row[9],
+    currentQuestRarity: row[10]
+  };
+}
+
+function getOrCreateSheet(spreadsheet) {
+  let sheet = spreadsheet.getSheetByName(ADVENTURER_SHEET_NAME);
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(ADVENTURER_SHEET_NAME);
+    sheet.appendRow(['Adventurer Name', 'XP', 'Level', 'Title', 'Guild Name', 'Current Quest ID', 'Current Quest', 'Current Quest XP', 'Quests Completed', 'Completed Quest IDs']);
+  }
+  return sheet;
+}
+
+function doGet(e) {
+  const sheet = getOrCreateSheet(SpreadsheetApp.getActiveSpreadsheet());
+
+  const action = e.parameter.action;
+  if (action === 'addAdventurer')      return handleAddAdventurer(sheet, e.parameter);
+  if (action === 'updateCurrentQuest') return handleUpdateCurrentQuest(sheet, e.parameter);
+  if (action === 'completeQuest')      return handleCompleteQuest(sheet, e.parameter);
+  if (action === 'abandonQuest')       return handleAbandonQuest(sheet, e.parameter);
+  if (action === 'updateGuild')        return handleUpdateGuild(sheet, e.parameter);
+  if (action === 'getAdventurer')      return handleGetAdventurer(sheet, e.parameter);
+  if (action === 'getGuilds')          return handleGetGuilds(sheet, e.parameter);
+  if (action === 'getLeaderboard')     return handleGetLeaderboard(sheet, e.parameter);
+
+  return jsonRes({ success: false, message: `Unknown action: '${action}'.` });
+}
+
+function handleAddAdventurer(sheet, params) {
+  const name = params.adventurerName;
+  if (!name) return jsonRes({ success: false, message: 'Missing adventurerName.' });
+
+  const data = sheet.getDataRange().getValues();
+  const rowIndex = findAdventurerRow(data, name);
+
+  if (rowIndex !== -1) {
+    // Adventurer already exists — return their current data
+    return jsonRes({ success: true, existing: true, adventurer: rowToAdventurer(data[rowIndex]) });
+  }
+
+  const { level, title } = getLevelAndTitle(0);
+  sheet.appendRow([name, 0, level, title, '', '', '', 0, 0, '', '']);
+
+  return jsonRes({
+    success: true,
+    existing: false,
+    adventurer: { name, xp: 0, level, title, guild: '', currentQuestId: '', currentQuest: '', questsCompleted: 0, completedQuestIds: '', currentQuestRarity: '' }
+  });
+}
+
+function handleUpdateCurrentQuest(sheet, params) {
+  const { adventurerName, questId, quest, questXp, questRarity } = params;
+  console.log('handleUpdateCurrentQuest params:', JSON.stringify({ adventurerName, questId, questXp, questRarity }));
+  if (!adventurerName) return jsonRes({ success: false, message: 'Missing adventurerName.' });
+
+  const data = sheet.getDataRange().getValues();
+  const rowIndex = findAdventurerRow(data, adventurerName);
+  if (rowIndex === -1) return jsonRes({ success: false, message: `Adventurer '${adventurerName}' not found.` });
+
+  const xpValue = parseFloat(questXp);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_ID).setValue(questId || '');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST).setValue(quest || '');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_XP).setValue(isNaN(xpValue) ? 0 : xpValue);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_RARITY).setValue(questRarity || '');
+
+  return jsonRes({ success: true, written: { questId, xp: isNaN(xpValue) ? 0 : xpValue, rarity: questRarity || '' } });
+}
+
+function handleCompleteQuest(sheet, params) {
+  const { adventurerName, questId } = params;
+  if (!adventurerName) return jsonRes({ success: false, message: 'Missing adventurerName.' });
+
+  const data = sheet.getDataRange().getValues();
+  const rowIndex = findAdventurerRow(data, adventurerName);
+  if (rowIndex === -1) return jsonRes({ success: false, message: `Adventurer '${adventurerName}' not found.` });
+
+  const row = data[rowIndex];
+  // Read XP reward directly from the stored Current Quest XP column
+  const xpReward = Number(row[7]) || 0;
+  const newXp = (Number(row[1]) || 0) + xpReward;
+  const { level, title } = getLevelAndTitle(newXp);
+  const questsCompleted = (Number(row[8]) || 0) + 1;
+  const existingIds = row[9] ? String(row[9]) : '';
+  const completedQuestIds = existingIds ? `${existingIds},${questId}` : String(questId || '');
+
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.XP).setValue(newXp);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.LEVEL).setValue(level);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.TITLE).setValue(title);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_ID).setValue('');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST).setValue('');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_XP).setValue(0);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_RARITY).setValue('');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.QUESTS_COMPLETED).setValue(questsCompleted);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.COMPLETED_QUEST_IDS).setValue(completedQuestIds);
+
+  return jsonRes({ success: true, xpReward, newXp, level, title, questsCompleted });
+}
+
+function handleAbandonQuest(sheet, params) {
+  const { adventurerName } = params;
+  if (!adventurerName) return jsonRes({ success: false, message: 'Missing adventurerName.' });
+
+  const data = sheet.getDataRange().getValues();
+  const rowIndex = findAdventurerRow(data, adventurerName);
+  if (rowIndex === -1) return jsonRes({ success: false, message: `Adventurer '${adventurerName}' not found.` });
+
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_ID).setValue('');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST).setValue('');
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_XP).setValue(0);
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.CURRENT_QUEST_RARITY).setValue('');
+
+  return jsonRes({ success: true });
+}
+
+function handleUpdateGuild(sheet, params) {
+  const { adventurerName, guildName } = params;
+  if (!adventurerName) return jsonRes({ success: false, message: 'Missing adventurerName.' });
+
+  const data = sheet.getDataRange().getValues();
+  const rowIndex = findAdventurerRow(data, adventurerName);
+  if (rowIndex === -1) return jsonRes({ success: false, message: `Adventurer '${adventurerName}' not found.` });
+
+  sheet.getRange(rowIndex + 1, ADVENTURER_COL.GUILD).setValue(guildName || '');
+
+  return jsonRes({ success: true });
+}
+
+function handleGetGuilds(sheet, params) {
+  const data = sheet.getDataRange().getValues();
+  const guilds = [];
+  const seen = new Set();
+  data.slice(1).forEach(row => {
+    const g = String(row[ADVENTURER_COL.GUILD - 1] || '').trim();
+    if (g && !seen.has(g)) {
+      seen.add(g);
+      guilds.push(g);
+    }
+  });
+  return jsonRes({ success: true, guilds });
+}
+
+function handleGetAdventurer(sheet, params) {
+  const { adventurerName } = params;
+  if (!adventurerName) return jsonRes({ success: false, message: 'Missing adventurerName.' });
+
+  const data = sheet.getDataRange().getValues();
+  const rowIndex = findAdventurerRow(data, adventurerName);
+  if (rowIndex === -1) return jsonRes({ success: false, message: `Adventurer '${adventurerName}' not found.` });
+
+  return jsonRes({ success: true, adventurer: rowToAdventurer(data[rowIndex]) });
+}
+
+function handleGetLeaderboard(sheet, params) {
+  const data = sheet.getDataRange().getValues();
+  const adventurers = data.slice(1).map(row => rowToAdventurer(row));
+  return jsonRes({ success: true, adventurers });
+}

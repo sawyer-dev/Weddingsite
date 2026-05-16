@@ -1,0 +1,86 @@
+<div class="guilds-overlay" [class.guilds-closing]="closing">
+  <div class="guilds-panel">
+
+    <!-- Header -->
+    <div class="guilds-header">
+      <button class="guilds-back" (click)="close()" aria-label="Back to Quest Board">
+        <span class="guilds-back-arrow">&#x2039;</span>
+      </button>
+      <span class="guilds-title">Guild Hall</span>
+      <div class="guilds-header-spacer"></div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="guilds-loading">
+      <div class="guild-spinner"></div>
+      <span class="guild-loading-text">Consulting the records...</span>
+    </div>
+
+    <!-- Guild list -->
+    <div *ngIf="!loading" class="guilds-body">
+      <p class="guilds-intro">Join an existing guild or found your own.</p>
+
+      <p *ngIf="guilds.length === 0" class="guilds-empty">
+        No guilds have been formed yet. Be the first to found one!
+      </p>
+
+      <div class="guild-list">
+        <button
+          *ngFor="let guild of guilds"
+          class="guild-card"
+          [class.guild-active]="guild === currentGuild"
+          [disabled]="joining"
+          (click)="joinGuild(guild)">
+          <span class="guild-icon">⚜</span>
+          <span class="guild-name">{{ guild }}</span>
+          <span *ngIf="guild === currentGuild" class="guild-badge">Joined</span>
+        </button>
+      </div>
+
+      <!-- Joining overlay -->
+      <div *ngIf="joining" class="guilds-joining-overlay">
+        <div class="guild-spinner"></div>
+        <span class="guild-loading-text">Registering your allegiance...</span>
+      </div>
+
+      <button class="guild-create-btn" [disabled]="joining" (click)="openCreateDialog()">
+        + Found a New Guild
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Create Guild Dialog -->
+<div *ngIf="createDialogVisible" class="guilds-dialog-backdrop" (click)="dismissCreateDialog()">
+  <div class="guilds-dialog-card" (click)="$event.stopPropagation()">
+    <h3 class="guilds-dialog-title">Found a New Guild</h3>
+    <p class="guilds-dialog-message">Choose a name worthy of legend.</p>
+    <input
+      type="text"
+      class="guilds-dialog-input"
+      [(ngModel)]="newGuildName"
+      (keydown.enter)="confirmCreate()"
+      placeholder="Guild name..."
+      maxlength="40"
+      autofocus
+    />
+    <div class="guilds-dialog-actions">
+      <button class="guild-btn guild-btn-secondary" (click)="dismissCreateDialog()">Cancel</button>
+      <button class="guild-btn guild-btn-primary" (click)="confirmCreate()" [disabled]="!newGuildName.trim()">Found It</button>
+    </div>
+  </div>
+</div>
+
+<!-- Join Success Dialog -->
+<div *ngIf="joinSuccessVisible" class="guilds-dialog-backdrop" (click)="dismissJoinSuccess()">
+  <div class="guilds-dialog-card" (click)="$event.stopPropagation()">
+    <p class="guilds-success-icon">⚜</p>
+    <h3 class="guilds-dialog-title">Guild Joined!</h3>
+    <p class="guilds-dialog-message">You are now a member of</p>
+    <p class="guilds-success-name">{{ joinSuccessGuild }}</p>
+    <div class="guilds-dialog-actions">
+      <button class="guild-btn guild-btn-primary" (click)="dismissJoinSuccess()">Onward!</button>
+    </div>
+  </div>
+</div>

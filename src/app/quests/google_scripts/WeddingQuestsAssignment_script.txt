@@ -1,0 +1,137 @@
+function doGet(e) {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+
+  // Log all sheet names
+  const sheets = spreadsheet.getSheets().map(sheet => sheet.getName());
+  console.log("Available sheets:", sheets);
+
+  // Get the active sheet or the specific sheet by name
+  const sheet = spreadsheet.getSheetByName("Sheet1"); // Use "Sheet1" or "WeddingQuests" as appropriate
+
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: false,
+        message: `Sheet 'Sheet1' not found. Available sheets: ${sheets.join(", ")}`
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const data = sheet.getDataRange().getValues();
+  console.log("data:", data);
+
+  // Handle abandon action
+  if (e.parameter.action === 'abandon') {
+    const questId = e.parameter.questId;
+    if (!questId) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, message: 'Missing questId parameter.' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    const rowIndex = data.findIndex(row => String(row[0]) === String(questId));
+    if (rowIndex === -1) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, message: `Quest with ID '${questId}' not found.` }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    sheet.getRange(rowIndex + 1, 5).setValue(false); // Assigned column
+    sheet.getRange(rowIndex + 1, 6).clearContent(); // Assigned To column
+    sheet.getRange(rowIndex + 1, 7).clearContent(); // Timestamp column
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true, message: `Quest '${questId}' has been abandoned and reset.` }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // Filter unassigned quests
+  const unassignedQuests = data.slice(1).filter(row => row[4] !== true);
+
+  if (unassignedQuests.length > 0) {
+    const randomIndex = Math.floor(Math.random() * unassignedQuests.length);
+    const quest = unassignedQuests[randomIndex];
+    const rowIndex = data.findIndex(row => row[0] === quest[0]);
+
+    // Mark as assigned
+    sheet.getRange(rowIndex + 1, 5).setValue(true); // Assigned column
+    sheet.getRange(rowIndex + 1, 7).setValue(new Date()); // Timestamp column
+
+    // Record the adventurer name
+    const adventurerName = e.parameter.adventurerName || "Unknown Adventurer";
+    sheet.getRange(rowIndex + 1, 6).setValue(adventurerName); // Assigned To column
+
+    const questXp = quest[3];
+    console.log('Assigning quest:', quest[1], '| ID:', quest[0], '| XP value at index 3:', questXp, '| full row:', JSON.stringify(quest));
+
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: true,
+        quest: quest[1], // Quest column
+        id: quest[0], // ID column
+        xp: questXp, // XP column
+        rarity: quest[2], // Rarity column
+        assignedTo: adventurerName
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify({
+      success: false,
+      message: "No quests remaining"
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+
+  // Log all sheet names
+  const sheets = spreadsheet.getSheets().map(sheet => sheet.getName());
+  console.log("Available sheets:", sheets);
+
+  // Get the active sheet or the specific sheet by name
+  const sheet = spreadsheet.getSheetByName("Sheet1"); // Use "Sheet1" or "WeddingQuests" as appropriate
+
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: false,
+        message: `Sheet 'Sheet1' not found. Available sheets: ${sheets.join(", ")}`
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const data = sheet.getDataRange().getValues();
+  console.log("data:", data);
+
+  const questId = e.parameter.questId;
+  if (!questId) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: false,
+        message: "Missing questId parameter."
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const rowIndex = data.findIndex(row => row[0] === questId);
+  if (rowIndex === -1) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        success: false,
+        message: `Quest with ID '${questId}' not found.`
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // Reset the quest
+  sheet.getRange(rowIndex + 1, 5).setValue(false); // Assigned column
+  sheet.getRange(rowIndex + 1, 6).clearContent(); // Assigned To column
+  sheet.getRange(rowIndex + 1, 7).clearContent(); // Timestamp column
+
+  return ContentService
+    .createTextOutput(JSON.stringify({
+      success: true,
+      message: `Quest with ID '${questId}' has been abandoned and reset.`
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
+}

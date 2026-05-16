@@ -1,0 +1,98 @@
+<div class="lb-overlay" [class.lb-closing]="closing">
+  <div class="lb-panel">
+
+    <!-- Header -->
+    <div class="lb-header">
+      <button class="lb-back" (click)="close()" aria-label="Back to Quest Board">
+        <span class="lb-back-arrow">&#x2039;</span>
+      </button>
+      <span class="lb-title">Leaderboard</span>
+      <div class="lb-header-spacer"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="lb-tabs">
+      <button
+        class="lb-tab"
+        [class.lb-tab-active]="activeTab === 'adventurers'"
+        (click)="activeTab = 'adventurers'">
+        &#x2694; Adventurers
+      </button>
+      <button
+        class="lb-tab"
+        [class.lb-tab-active]="activeTab === 'guilds'"
+        (click)="activeTab = 'guilds'">
+        &#x269C; Guilds
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="lb-loading">
+      <div class="lb-spinner"></div>
+      <span class="lb-loading-text">Consulting the chronicles...</span>
+    </div>
+
+    <!-- Adventurers Tab -->
+    <div *ngIf="!loading && activeTab === 'adventurers'" class="lb-body">
+      <p *ngIf="adventurers.length === 0" class="lb-empty">No adventurers have been recorded yet.</p>
+
+      <div
+        *ngFor="let adv of adventurers; let i = index"
+        class="lb-row"
+        [class.lb-rank-1]="i === 0"
+        [class.lb-rank-2]="i === 1"
+        [class.lb-rank-3]="i === 2">
+        <span class="lb-rank">{{ i + 1 }}</span>
+        <div class="lb-row-info">
+          <span class="lb-row-name">{{ adv.name }}</span>
+          <span class="lb-row-title">{{ adv.title }}</span>
+          <span *ngIf="adv.guild" class="lb-row-guild">&#x269C; {{ adv.guild }}</span>
+        </div>
+        <div class="lb-row-stats">
+          <span class="lb-stat-chip lb-stat-level">Level {{ adv.level }}</span>
+          <span class="lb-stat-chip">{{ adv.xp }} XP</span>
+          <span class="lb-stat-chip" *ngIf="adv.questsCompleted > 0">{{ adv.questsCompleted }} &#x2694;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guilds Tab -->
+    <div *ngIf="!loading && activeTab === 'guilds'" class="lb-body">
+      <p *ngIf="guilds.length === 0" class="lb-empty">No guilds have been formed yet.</p>
+
+      <div *ngFor="let guild of guilds; let i = index" class="lb-guild-card"
+        [class.lb-rank-1]="i === 0"
+        [class.lb-rank-2]="i === 1"
+        [class.lb-rank-3]="i === 2">
+        <button class="lb-guild-header" (click)="toggleGuild(guild)">
+          <span class="lb-rank">{{ i + 1 }}</span>
+          <div class="lb-row-info">
+              <span class="lb-row-name lb-guild-name">&#x269C; {{ guild.name }} &#x269C;</span>
+            <div class="lb-row-stats lb-row-stats-inline">
+              <span class="lb-stat-chip">{{ guild.totalXp }} XP</span>
+              <span class="lb-stat-chip" *ngIf="guild.totalQuests > 0">{{ guild.totalQuests }} &#x2694;</span>
+              <span class="lb-stat-chip">{{ guild.members.length }} {{ guild.members.length === 1 ? 'member' : 'members' }}</span>
+            </div>
+          </div>
+          <span class="lb-chevron" [class.lb-chevron-open]="guild.expanded">&#9660;</span>
+        </button>
+
+        <div *ngIf="guild.expanded" class="lb-guild-members">
+          <div *ngFor="let adv of guild.members; let j = index" class="lb-member-row">
+            <span class="lb-member-rank">{{ j + 1 }}</span>
+            <div class="lb-row-info">
+              <span class="lb-row-name lb-member-name">{{ adv.name }}</span>
+              <span class="lb-row-title">{{ adv.title }}</span>
+            </div>
+            <div class="lb-row-stats">
+              <span class="lb-stat-chip lb-stat-level">Level {{ adv.level }}</span>
+              <span class="lb-stat-chip">{{ adv.xp }} XP</span>
+              <span class="lb-stat-chip" *ngIf="adv.questsCompleted > 0">{{ adv.questsCompleted }} &#x2694;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

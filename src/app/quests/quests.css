@@ -1,0 +1,507 @@
+/* ─── Page wrapper ─── */
+.quests-page {
+  min-height: 100vh;
+  background: #fffbe8;
+  padding-top: 60px; /* clear fixed quest-navbar */
+  padding-bottom: 3rem;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+}
+
+.quests-page-inner {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ─── Adventurer card ─── */
+.adventurer-card {
+  background: linear-gradient(155deg, #f9f0de 0%, #fffbe8 100%);
+  border: 2px solid #3f0706;
+  border-radius: 14px;
+  padding: 1.4rem 1.25rem 1.1rem;
+  margin: 1.25rem 1rem 0.75rem;
+  box-shadow: 0 4px 18px rgba(63, 7, 6, 0.10);
+  text-align: center;
+  transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+/* Level 4–6: Uncommon — green */
+.adventurer-card.tier-uncommon {
+  background: linear-gradient(155deg, #d6eeda 0%, #edf7ee 100%);
+  border-color: #2e7d32;
+  box-shadow: 0 4px 18px rgba(46, 125, 50, 0.15);
+}
+
+/* Level 7–10: Rare — blue */
+.adventurer-card.tier-rare {
+  background: linear-gradient(155deg, #cdddf5 0%, #e8f0fb 100%);
+  border-color: #1565c0;
+  box-shadow: 0 4px 18px rgba(21, 101, 192, 0.18);
+}
+
+/* Level 11–15: Epic — purple */
+.adventurer-card.tier-epic {
+  background: linear-gradient(155deg, #e0cff0 0%, #f3eaf9 100%);
+  border-color: #6a1b9a;
+  box-shadow: 0 4px 18px rgba(106, 27, 154, 0.18);
+}
+
+/* Level 16–20: Legendary — gold */
+.adventurer-card.tier-legendary {
+  background: linear-gradient(155deg, #f5dfa0 0%, #fdf3d6 100%);
+  border-color: #9a6c00;
+  box-shadow: 0 4px 18px rgba(154, 108, 0, 0.22);
+}
+
+.adventurer-title-label {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #7a3a0a;
+  margin: 0 0 1.0rem;
+}
+
+.adventurer-name {
+  font-size: 2rem;
+  color: #3f0706;
+  margin: 0 0 0.5rem;
+  line-height: 1.15;
+}
+
+.adventurer-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.stat-chip {
+  background: #3f0706;
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* XP progress bar */
+.xp-bar-track {
+  background: rgba(63, 7, 6, 0.12);
+  border-radius: 6px;
+  height: 9px;
+  overflow: hidden;
+  margin: 0 0.25rem 0.4rem;
+}
+
+.xp-bar-fill {
+  background: linear-gradient(90deg, #3f0706, #8b1a1a);
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.7s ease;
+  min-width: 4px;
+}
+
+.xp-label {
+  font-size: 0.95rem;
+  color: #7a3a0a;
+  margin: 0 0 0.4rem;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.adventurer-guild {
+  font-size: 1.05rem;
+  color: #3f0706;
+  margin: 0.5rem 0 0;
+}
+
+.adventurer-guild .guild-symbol {
+  font-size: 1.3rem;
+  font-style: normal;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1em;
+}
+
+/* ─── Action buttons ─── */
+.quest-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0 1rem;
+  margin-top: 0.75rem;
+}
+
+.quest-actions-row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.quest-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: none;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.quest-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.quest-btn:not(:disabled):active {
+  transform: translateY(1px);
+  filter: brightness(0.92);
+}
+
+.quest-btn:not(:disabled):hover {
+  filter: brightness(1.08);
+}
+
+/* Primary — Receive Quest */
+.quest-btn-primary {
+  background: #3f0706;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(63, 7, 6, 0.28);
+}
+
+/* Success — Complete Quest */
+.quest-btn-success {
+  background: #1a5c2a;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(26, 92, 42, 0.28);
+}
+
+/* Danger — Abandon Quest */
+.quest-btn-danger {
+  background: #6b3520;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(107, 53, 32, 0.22);
+}
+
+/* Secondary — Update Guild */
+.quest-btn-secondary {
+  background: transparent;
+  color: #3f0706;
+  border: 2px solid #3f0706;
+  box-shadow: none;
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ─── Adventurer init loading ─── */
+.adventurer-init-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 3.5rem 1rem;
+}
+
+/* ─── Loading ─── */
+.quest-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.75rem 1rem;
+}
+
+.quest-spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(63, 7, 6, 0.15);
+  border-top-color: #3f0706;
+  border-radius: 50%;
+  animation: quest-spin 0.75s linear infinite;
+}
+
+@keyframes quest-spin {
+  to { transform: rotate(360deg); }
+}
+
+.quest-loading-text {
+  color: #7a3a0a;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+/* ─── Quest scroll card ─── */
+.quest-scroll {
+  background: #f5e6c8;
+  border: 2px solid #c49a3c;
+  border-radius: 12px;
+  margin: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(196, 154, 60, 0.18);
+}
+
+/* Rarity-specific card border + background tint */
+.quest-scroll[data-rarity="common"]    { border-color: #616161; background: #e8e8e8; box-shadow: 0 4px 16px rgba(97, 97, 97, 0.2); }
+.quest-scroll[data-rarity="uncommon"]  { border-color: #2e7d32; background: #ddf0df; box-shadow: 0 4px 16px rgba(46, 125, 50, 0.2); }
+.quest-scroll[data-rarity="rare"]      { border-color: #1565c0; background: #d6e6f9; box-shadow: 0 4px 16px rgba(21, 101, 192, 0.2); }
+.quest-scroll[data-rarity="epic"]      { border-color: #6a1b9a; background: #ead9f5; box-shadow: 0 4px 16px rgba(106, 27, 154, 0.2); }
+.quest-scroll[data-rarity="legendary"] { border-color: #9a6c00; background: #f8e8b0; box-shadow: 0 4px 16px rgba(154, 108, 0, 0.25); }
+
+.quest-scroll-header {
+  background: #c49a3c;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Rarity-based header colors */
+.quest-scroll-header[data-rarity="common"]    { background: #616161; }
+.quest-scroll-header[data-rarity="uncommon"]  { background: #2e7d32; }
+.quest-scroll-header[data-rarity="rare"]      { background: #1565c0; }
+.quest-scroll-header[data-rarity="epic"]      { background: #6a1b9a; }
+.quest-scroll-header[data-rarity="legendary"] { background: #9a6c00; }
+
+.rarity-badge {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 0, 0, 0.22);
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.scroll-label {
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.quest-scroll-text {
+  padding: 1.25rem 1.4rem 0.75rem;
+  font-size: 1.25rem;
+  color: #1a0e00;
+  line-height: 1.75;
+  margin: 0;
+  font-family: 'Crimson Pro', Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.quest-reward-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  background: #3f0706;
+  color: #fff;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  white-space: nowrap;
+}
+
+/* ─── Proof link ─── */
+.quest-proof-section {
+  padding: 0 1.25rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.quest-proof-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.quest-proof-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  padding: 0.45rem 0.75rem;
+  padding-left: 0rem;
+  border-radius: 10px;
+  background: #1e3a6b;
+  color: #fff;
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.0rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.15s ease, transform 0.1s ease;
+  box-shadow: 0 3px 10px rgba(30, 58, 107, 0.3);
+}
+
+.quest-proof-link:active {
+  transform: translateY(1px);
+  filter: brightness(0.92);
+}
+
+.quest-proof-link:hover {
+  filter: brightness(1.08);
+}
+
+.quest-proof-link.proof-clicked {
+  background: #1a5c2a;
+  box-shadow: 0 3px 10px rgba(26, 92, 42, 0.28);
+  flex-shrink: 0;
+}
+
+.proof-camera-icon {
+  height: 26px;
+  width: auto;
+  margin-right: 0.45rem;
+  filter: brightness(0) invert(1);
+  pointer-events: none;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.quest-proof-hint {
+  font-size: 0.88rem;
+  color: #7a3a0a;
+  margin: 0;
+  font-style: italic;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ─── Name prompt ─── */
+.name-prompt-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+
+.name-prompt-text {
+  font-size: 1.05rem;
+  color: #3f0706;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* ─── Responsive (desktop) ─── */
+@media (min-width: 481px) {
+  .quests-page {
+    padding-top: 70px;
+  }
+
+  .adventurer-name {
+    font-size: 2.3rem;
+  }
+
+  .quest-btn {
+    font-size: 1.15rem;
+    min-height: 54px;
+  }
+
+  .quest-scroll-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* ─── Custom Dialog ─── */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: dialog-fade-in 0.18s ease;
+}
+
+@keyframes dialog-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dialog-card {
+  background: #fffbe8;
+  border: 2px solid #3f0706;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem 1.4rem;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(63, 7, 6, 0.22);
+  text-align: center;
+  animation: dialog-slide-up 0.2s ease;
+}
+
+@keyframes dialog-slide-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.dialog-title {
+  font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
+  font-size: 1.6rem;
+  color: #3f0706;
+  margin: 0 0 0.6rem;
+  line-height: 1.2;
+}
+
+.dialog-highlight {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a5c2a;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin: 0 0 0.5rem;
+  line-height: 1;
+}
+
+.dialog-message {
+  font-size: 1.05rem;
+  color: #3f0706;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin: 0 0 1.2rem;
+  line-height: 1.5;
+}
+
+.dialog-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid #3f0706;
+  border-radius: 8px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  color: #2c1a00;
+  background: #f9f0de;
+  margin-bottom: 1.2rem;
+  outline: none;
+}
+
+.dialog-input:focus {
+  border-color: #8b1a1a;
+  box-shadow: 0 0 0 3px rgba(63, 7, 6, 0.12);
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.dialog-btn {
+  min-width: 100px;
+  min-height: 46px;
+  width: auto;
+  flex: 1;
+}
