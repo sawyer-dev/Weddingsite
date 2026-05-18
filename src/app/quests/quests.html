@@ -79,6 +79,9 @@
           <span class="btn-icon">✕</span> Abandon Quest
         </button>
       </div>
+      <!-- <a *ngIf="!quest" href="https://photos.app.goo.gl/gJGs6GftuVjCPfap8" target="_blank" rel="noopener" class="quest-btn quest-btn-photos" style="padding-top: 0.75rem;">
+        <img src="assets/images/photo-camera.png" alt="" class="quest-btn-icon"> Photo Album
+      </a> -->
     </div>
 
     </ng-container>
@@ -88,6 +91,9 @@
     <div class="name-prompt-card">
       <p class="name-prompt-text">Enter thy Adventurer Name to begin thy quest.</p>
       <button class="quest-btn quest-btn-primary" (click)="promptForName()">Enter Name</button>
+      <!-- <a href="https://photos.app.goo.gl/gJGs6GftuVjCPfap8" target="_blank" rel="noopener" class="quest-btn quest-btn-photos" style="margin-top: 0.75rem;">
+        <img src="assets/images/photo-camera.png" alt="" class="quest-btn-icon"> Photo Album
+      </a> -->
     </div>
   </ng-template>
 
@@ -114,7 +120,7 @@
         *ngIf="dialogType === 'prompt' || dialogType === 'confirm'"
         class="quest-btn quest-btn-secondary dialog-btn"
         (click)="dismissDialog()">
-        {{ dialogType === 'confirm' ? 'Cancel' : 'Turn back' }}
+        {{ dialogType === 'confirm' ? 'Hold Fast' : 'Spectate' }}
       </button>
       <button
         class="quest-btn dialog-btn"
@@ -124,6 +130,9 @@
         {{ dialogType === 'prompt' ? 'Adventure Forth!' : dialogType === 'confirm' ? 'Forsake It' : 'Onward!' }}
       </button>
     </div>
+    <a *ngIf="dialogType === 'prompt'" href="https://photos.app.goo.gl/gJGs6GftuVjCPfap8" target="_blank" rel="noopener" class="quest-btn quest-btn-photos" style="margin-top: 0.75rem;">
+      <img src="assets/images/photo-camera.png" alt="" class="quest-btn-icon"> Photo Album
+    </a>
   </div>
 </div>
 

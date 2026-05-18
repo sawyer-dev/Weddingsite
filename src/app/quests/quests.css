@@ -145,6 +145,7 @@
   padding-left: 0.5rem;
   border-radius: 10px;
   border: none;
+  box-sizing: border-box;
   font-family: 'BlackChanceryFont', 'Playfair Display', Georgia, serif;
   font-size: 1.1rem;
   font-weight: 700;
@@ -189,12 +190,25 @@
   box-shadow: 0 3px 10px rgba(107, 53, 32, 0.22);
 }
 
-/* Secondary — Update Guild */
+/* Secondary — Cancel / Spectate dialogs */
 .quest-btn-secondary {
   background: transparent;
   color: #3f0706;
   border: 2px solid #3f0706;
   box-shadow: none;
+  text-decoration: none;
+}
+
+/* Photos Album button */
+.quest-btn-photos {
+  background: #1e3a6b;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(30, 58, 107, 0.28);
+  text-decoration: none;
+}
+
+.name-prompt-photos-btn {
+  margin-top: 0.25rem;
 }
 
 .btn-icon {
