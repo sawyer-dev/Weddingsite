@@ -51,7 +51,7 @@
         <div class="lb-row-stats">
           <span class="lb-stat-chip lb-stat-level">Level {{ adv.level }}</span>
           <span class="lb-stat-chip">{{ adv.xp }} XP</span>
-          <span class="lb-stat-chip" *ngIf="adv.questsCompleted > 0">{{ adv.questsCompleted }} &#x2694;</span>
+          <span class="lb-stat-chip" *ngIf="adv.questsCompleted > 0">{{ adv.questsCompleted }} <img src="assets/images/quest-icon-dark.png" alt="quests" class="lb-inline-quest-icon"></span>
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@
               <span class="lb-row-name lb-guild-name"><img src="assets/images/guild-icon-dark.png" alt="" class="lb-inline-guild-icon"> {{ guild.name }} <img src="assets/images/guild-icon-dark.png" alt="" class="lb-inline-guild-icon"></span>
             <div class="lb-row-stats lb-row-stats-inline">
               <span class="lb-stat-chip">{{ guild.totalXp }} XP</span>
-              <span class="lb-stat-chip" *ngIf="guild.totalQuests > 0">{{ guild.totalQuests }} &#x2694;</span>
+              <span class="lb-stat-chip" *ngIf="guild.totalQuests > 0">{{ guild.totalQuests }} <img src="assets/images/quest-icon-dark.png" alt="quests" class="lb-inline-quest-icon"></span>
               <span class="lb-stat-chip">{{ guild.members.length }} {{ guild.members.length === 1 ? 'member' : 'members' }}</span>
             </div>
           </div>
@@ -87,7 +87,7 @@
             <div class="lb-row-stats">
               <span class="lb-stat-chip lb-stat-level">Level {{ adv.level }}</span>
               <span class="lb-stat-chip">{{ adv.xp }} XP</span>
-              <span class="lb-stat-chip" *ngIf="adv.questsCompleted > 0">{{ adv.questsCompleted }} &#x2694;</span>
+              <span class="lb-stat-chip" *ngIf="adv.questsCompleted > 0">{{ adv.questsCompleted }} <img src="assets/images/quest-icon-dark.png" alt="quests" class="lb-inline-quest-icon"></span>
             </div>
           </div>
         </div>

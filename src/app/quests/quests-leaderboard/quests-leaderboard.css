@@ -268,6 +268,13 @@
   top: -0.1em;
 }
 
+.lb-inline-quest-icon {
+  height: 0.85rem;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1em;
+}
+
 .lb-row-stats {
   display: flex;
   flex-direction: column;
